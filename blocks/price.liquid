@@ -92,6 +92,14 @@
 
 {% render 'payment-terms-styles' %}
 
+{% stylesheet %}
+  /* Price line-height on the 4px grid (24px font -> 32px line) */
+  product-price.custom-typography,
+  product-price.custom-typography > * {
+    line-height: 32px;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_price",
