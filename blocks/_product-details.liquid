@@ -71,18 +71,6 @@
     .full-height--desktop .group-block {
       align-self: var(--details-position, 'flex-start');
     }
-
-    /* "Auto" gap between stacks: with Height = fill, stretch the group to the details height (capped to the
-       viewport minus the header group) and spread the blocks with space-between. The container gap stays
-       as the minimum spacing; when the content is taller than the cap, min-content keeps it from clipping. */
-    .product-details.full-height--desktop > .group-block {
-      height: 100%;
-      min-height: min-content;
-    }
-
-    .product-details.full-height--desktop > .group-block > .group-block-content {
-      justify-content: space-between;
-    }
   }
 {% endstylesheet %}
 
