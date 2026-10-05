@@ -72,6 +72,17 @@
             assign is_size_option = true
           endif
 
+          comment
+            Women-only store: a single-value "Target gender" option is not a choice, so don't show it.
+            Real multi-value gender options are still rendered.
+          endcomment
+          assign is_hidden_option = false
+          if product_option.values.size == 1
+            if option_name_lower contains 'gender' or option_name_lower contains 'género' or option_name_lower contains 'genero'
+              assign is_hidden_option = true
+            endif
+          endif
+
           if variant_style == 'buttons' and settings.variant_button_width == 'equal-width-buttons'
             assign fieldset_id = section.id | append: '-' | append: product_resource.id | append: '-' | append: product_option.name | handleize
             assign option_id_attribute = 'data-option-id="' | append: fieldset_id | append: '"'
@@ -79,7 +90,9 @@
           endif
         -%}
 
-        {%- if product_option.values.size == 1 and variant_style != 'swatch' -%}
+        {%- if is_hidden_option -%}
+          {% # Hidden single-value option (see above) %}
+        {%- elsif product_option.values.size == 1 and variant_style != 'swatch' -%}
           <div
             class="variant-option"
             data-testid="variant-option-single"
