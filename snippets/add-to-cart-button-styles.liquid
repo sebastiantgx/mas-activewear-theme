@@ -44,6 +44,16 @@
     height: 30px;
   }
 
+  /* Sold out / unavailable selection. Keyed on data-unavailable (not :disabled) so the brief
+     disabled state while an add-to-cart request is in flight stays unstyled. */
+  .button.add-to-cart-button[data-unavailable] {
+    --button-background-color: var(--color-error);
+    --button-border-color: var(--color-error);
+    --button-color: var(--color-white);
+
+    opacity: 1;
+  }
+
   .add-to-cart-text {
     --atc-opacity: 0;
     --atc-destination: -1em;
