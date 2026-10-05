@@ -780,6 +780,9 @@ class ProductFormComponent extends Component {
     // while a newer variant selection is still pending.
     const generation = ++this.#variantChangeGeneration;
     this.#variantChangeInProgress = true;
+    // Expose the pending state to CSS so the buttons can show a loading spinner
+    this.setAttribute('data-variant-loading', '');
+    this.setAttribute('aria-busy', 'true');
     // Hold the in-flight section-fetch promise so the queue drain can await it before reading the
     // resolved variant id.
     this.#pendingVariantChange = event.promise;
@@ -927,6 +930,8 @@ class ProductFormComponent extends Component {
       // Only clear the flag if no newer variant selection has started
       if (generation === this.#variantChangeGeneration) {
         this.#variantChangeInProgress = false;
+        this.removeAttribute('data-variant-loading');
+        this.removeAttribute('aria-busy');
 
         // Drain any queued add-to-cart requests that accumulated during the variant change
         await this.#drainAddToCartQueue();

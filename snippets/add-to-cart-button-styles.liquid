@@ -44,6 +44,40 @@
     height: 30px;
   }
 
+  /* Variant change in flight (product-form.js sets data-variant-loading): show a spinner in the
+     button instead of the ambiguous dimmed state. Clicks stay allowed; the form queues them. */
+  @keyframes variant-loading-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  product-form-component[data-variant-loading] .add-to-cart-button {
+    opacity: 1;
+    color: transparent; /* hides the label text node; the spinner uses --button-color */
+  }
+
+  product-form-component[data-variant-loading] .add-to-cart-button > * {
+    visibility: hidden;
+  }
+
+  product-form-component[data-variant-loading] .add-to-cart-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--button-color);
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+    animation: variant-loading-spin 0.7s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation-duration: 1.6s;
+    }
+  }
+
   .add-to-cart-text {
     --atc-opacity: 0;
     --atc-destination: -1em;
