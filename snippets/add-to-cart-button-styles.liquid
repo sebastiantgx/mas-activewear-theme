@@ -44,11 +44,11 @@
     height: 30px;
   }
 
-  /* Sold out / unavailable selection. Keyed on data-unavailable (not :disabled) so the brief
-     disabled state while an add-to-cart request is in flight stays unstyled. */
-  .button.add-to-cart-button[data-unavailable] {
-    --button-background-color: var(--color-error);
-    --button-border-color: var(--color-error);
+  /* Sold out / unavailable selection: dark lavender with white text (not error red, this is not an error).
+     Keyed on :disabled because variant changes toggle it from JS (product-form.js). */
+  .button.add-to-cart-button:disabled {
+    --button-background-color: var(--color-accent-dark);
+    --button-border-color: var(--color-accent-dark);
     --button-color: var(--color-white);
 
     opacity: 1;
