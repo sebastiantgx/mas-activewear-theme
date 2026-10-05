@@ -102,10 +102,13 @@
     position: relative;
   }
 
+  /* The fieldset <legend> sits above the fieldset's content box, so anchor the link to the content box's
+     top edge and lift it by the legend's bottom margin: that puts it on the legend line, to the right. */
   .size-guide--in-picker {
     position: absolute;
-    inset-block-start: 0;
+    inset-block-end: calc(100% + var(--margin-xs));
     inset-inline-end: 0;
+    z-index: 1;
   }
 
   .size-guide__trigger {
