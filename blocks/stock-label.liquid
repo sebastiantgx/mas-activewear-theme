@@ -22,21 +22,31 @@
 {%- if all_tracked and total_units > 0 and total_units < low_stock_total_threshold -%}
   <p
     class="stock-label spacing-style"
-    style="{% render 'spacing-style', settings: block.settings %} color: {{ settings.color_palette.color1 }};"
+    style="{% render 'spacing-style', settings: block.settings %}"
     {{ block.shopify_attributes }}
   >
-    Pocas unidades
+    <span class="stock-label__badge">Pocas unidades</span>
   </p>
 {%- endif -%}
 
 {% stylesheet %}
   .stock-label {
     margin: 0 0 -4px; /* sit closer to the title: group gap 12px -> 8px */
+  }
+
+  /* Rectangular sale-style badge: error red background, white text, square corners */
+  .stock-label__badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: var(--color-error);
+    color: var(--color-white);
     font-family: var(--font-body--family);
     font-weight: 400;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
+    border-radius: 0;
   }
 {% endstylesheet %}
 
