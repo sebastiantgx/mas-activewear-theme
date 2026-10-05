@@ -199,7 +199,7 @@
     display: flex;
     flex-direction: row;
     padding: var(--style-border-width-inputs);
-    gap: calc(var(--gap-sm) + (var(--style-border-width-inputs) * 2));
+    gap: var(--gap-lg);
   }
 
   @container (max-width: 199px) {
@@ -211,7 +211,7 @@
   .price-facet__input {
     width: 100%;
     text-align: end;
-    padding-inline-start: calc(2.5 * var(--input-padding-x));
+    padding-inline-start: var(--padding-4xl); /* 32px, was 2.5 x input padding */
   }
 
   .price-facet__input::placeholder {
