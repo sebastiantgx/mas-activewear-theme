@@ -1,3 +1,9 @@
+{%- doc -%}
+  Size guide link + modal, shown on the right of the size option legend in the variant picker.
+  Renders nothing unless product type is Tops/Remeras or Shorts/Calzas.
+
+  @param {object} product_resource - The product
+{%- enddoc -%}
 {%- liquid
   comment
     SAMPLE DATA (cm) - replace with the real measurements.
@@ -6,7 +12,7 @@
   assign tops_rows = 'S|88|60;M|92|62;L|96|64'
   assign bottoms_rows = 'S|64|90;M|68|94;L|72|98'
 
-  assign product_type = closest.product.type | strip | downcase
+  assign product_type = product_resource.type | strip | downcase
   assign rows = ''
   case product_type
     when 'tops', 'remeras'
@@ -30,8 +36,7 @@
   {% render 'dialog-styles' %}
 
   <dialog-component
-    class="size-guide"
-    {{ block.shopify_attributes }}
+    class="size-guide size-guide--in-picker"
   >
     <button
       type="button"
@@ -92,9 +97,21 @@
     display: block;
   }
 
+  /* Pinned to the right of the "Size" legend line, inside the size fieldset */
+  .variant-option--has-size-guide {
+    position: relative;
+  }
+
+  .size-guide--in-picker {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+  }
+
   .size-guide__trigger {
     font-family: var(--font-body--family);
-    font-size: var(--font-paragraph--size, 0.875rem);
+    font-size: 0.875rem;
+    line-height: inherit;
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-decoration-thickness: 2px;
@@ -165,21 +182,3 @@
   }
 {% endstylesheet %}
 
-{% schema %}
-{
-  "name": "Size guide",
-  "tag": null,
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "Link that opens a size chart (cm) chosen by product type: Tops/Remeras or Shorts/Calzas. Hidden for any other type."
-    }
-  ],
-  "presets": [
-    {
-      "name": "Size guide",
-      "category": "t:categories.product"
-    }
-  ]
-}
-{% endschema %}
