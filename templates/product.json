@@ -49,7 +49,7 @@
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
-            "height": "fit",
+            "height": "fill",
             "details_position": "flex-start",
             "gap": 16,
             "sticky_details_desktop": true,
@@ -143,11 +143,11 @@
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
+                    "text_color": "#333333",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
-                    "padding-inline-end": 0,
-                    "text_color": "#333333"
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 },
