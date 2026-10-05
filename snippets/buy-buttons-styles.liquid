@@ -105,15 +105,21 @@
     text-transform: var(--button-text-case-secondary);
   }
 
-  /* "Buy now" while a variant change is in flight: dim it, show a spinner and ignore clicks so the
-     accelerated checkout cannot be triggered for the previous variant. The rest of the page stays interactive. */
+  /* "Buy now" while a variant change is in flight: cover the external accelerated checkout button with a
+     same-colored layer (hides its label) plus a spinner, and ignore clicks so it cannot be triggered for the
+     previous variant. The rest of the page stays interactive. */
   product-form-component[data-variant-loading] .accelerated-checkout-block {
     position: relative;
     pointer-events: none;
   }
 
-  product-form-component[data-variant-loading] .accelerated-checkout-block > * {
-    opacity: 0.35;
+  product-form-component[data-variant-loading] .accelerated-checkout-block::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--style-border-radius-buttons-primary);
+    background-color: var(--color-primary-button-background);
   }
 
   product-form-component[data-variant-loading] .accelerated-checkout-block::before {
@@ -121,10 +127,10 @@
     position: absolute;
     inset: 0;
     margin: auto;
-    z-index: 1;
+    z-index: 2;
     width: 1.25rem;
     height: 1.25rem;
-    border: 2px solid var(--color-foreground);
+    border: 2px solid var(--color-primary-button-text);
     border-inline-end-color: transparent;
     border-radius: 50%;
     animation: variant-loading-spin 0.7s linear infinite;
