@@ -181,6 +181,16 @@
               },
               "blocks": {}
             },
+            "low_stock_Ls1Qrt": {
+              "type": "low-stock",
+              "settings": {
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "size_guide_Sg1Abc": {
               "type": "size-guide",
               "settings": {},
@@ -262,6 +272,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "low_stock_Ls1Qrt",
             "size_guide_Sg1Abc",
             "model_fit_Mf1Xyz",
             "buy_buttons_eYQEYi",

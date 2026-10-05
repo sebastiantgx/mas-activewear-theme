@@ -1,0 +1,112 @@
+{%- liquid
+  assign variant = closest.product.selected_or_first_available_variant
+  assign low_stock_threshold = 3
+  assign low_stock_quantity = 0
+
+  comment
+    Only for variants whose inventory Shopify tracks. Hidden when untracked, sold out
+    (<= 0, including overselling with "continue") or above the threshold.
+  endcomment
+  if variant.inventory_management == 'shopify'
+    if variant.inventory_quantity > 0 and variant.inventory_quantity <= low_stock_threshold
+      assign low_stock_quantity = variant.inventory_quantity
+    endif
+  endif
+-%}
+
+<product-low-stock
+  class="product-low-stock"
+  {{ block.shopify_attributes }}
+  data-product-id="{{ closest.product.id }}"
+>
+  {%- if low_stock_quantity > 0 -%}
+    <p
+      class="product-low-stock__text spacing-style"
+      style="{% render 'spacing-style', settings: block.settings %} color: {{ settings.color_palette.color1 }};"
+      role="status"
+    >
+      {%- if low_stock_quantity == 1 -%}
+        Queda 1 unidad
+      {%- else -%}
+        Quedan {{ low_stock_quantity }} unidades
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+</product-low-stock>
+
+{% stylesheet %}
+  /* Keep the element out of layout so an empty state adds no gap */
+  .product-low-stock {
+    display: contents;
+  }
+
+  .product-low-stock__text {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 0.875rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Low stock",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows \"Quedan X unidades\" when the selected variant has 3 or fewer units and its inventory is tracked by Shopify. Hidden otherwise."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Low stock",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}
