@@ -48,7 +48,7 @@
   }
 
   .short-description__more {
-    margin-inline-start: 0.25em;
+    margin-inline-start: 4px;
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-decoration-thickness: 2px;
@@ -58,6 +58,10 @@
   /* Expanding is one-way: once open, the full text replaces the summary */
   .short-description__details[open] > .short-description__summary {
     display: none;
+  }
+
+  .short-description__full p {
+    margin-block: 0 16px;
   }
 
   .short-description__full > :first-child {
