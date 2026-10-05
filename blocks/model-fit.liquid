@@ -38,8 +38,13 @@
 
   .product-model-fit__text {
     margin: 0;
-    margin-block-start: -8px; /* hug the line above: 16px container gap -> 8px */
     color: var(--color-foreground-muted);
+  }
+
+  /* Hug the line above (16px container gap -> 8px); specificity beats the theme's global
+     `:first-child:is(p, h1...)` margin-top reset. */
+  .product-model-fit > .product-model-fit__text:first-child {
+    margin-block-start: -8px;
   }
 {% endstylesheet %}
 

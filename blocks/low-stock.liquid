@@ -42,10 +42,15 @@
 
   .product-low-stock__text {
     margin: 0;
-    margin-block-start: -8px; /* hug the picker: 16px container gap -> 8px */
     font-family: var(--font-body--family);
     font-weight: 400;
     font-size: 0.875rem;
+  }
+
+  /* Hug the picker (16px container gap -> 8px). Specificity beats the theme's global
+     `:first-child:is(p, h1...)` margin-top reset, which also matches this text. */
+  .product-low-stock > .product-low-stock__text:first-child {
+    margin-block-start: -8px;
   }
 {% endstylesheet %}
 
