@@ -1639,6 +1639,16 @@ input[type='radio'] {
   }
 }
 
+/* Empty states (empty cart page, search with no results, empty predictive search): opacity fade only,
+   no slide or scale. Tokens come from theme-styles-variables. */
+@media (prefers-reduced-motion: no-preference) {
+  .cart-page--empty,
+  .search-results__no-results,
+  .predictive-search-results__no-results {
+    animation: fadeIn var(--duration-entrance) var(--ease-out-cubic) both;
+  }
+}
+
 @keyframes modalSlideInTop {
   from {
     transform: translateY(var(--padding-sm));
