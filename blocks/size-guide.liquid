@@ -1,0 +1,183 @@
+{%- liquid
+  comment
+    SAMPLE DATA (cm) - replace with the real measurements.
+    Rows are "size|col1|col2" separated by ";".
+  endcomment
+  assign tops_rows = 'S|88|60;M|92|62;L|96|64'
+  assign bottoms_rows = 'S|64|90;M|68|94;L|72|98'
+
+  assign product_type = closest.product.type | strip | downcase
+  assign rows = ''
+  case product_type
+    when 'tops', 'remeras'
+      assign rows = tops_rows
+      assign col_1 = 'Busto'
+      assign col_2 = 'Largo'
+    when 'shorts', 'calzas'
+      assign rows = bottoms_rows
+      assign col_1 = 'Cintura'
+      assign col_2 = 'Cadera'
+  endcase
+  assign rows_array = rows | split: ';'
+-%}
+
+{%- if rows != blank -%}
+  <script
+    src="{{ 'dialog.js' | asset_url }}"
+    type="module"
+  ></script>
+
+  {% render 'dialog-styles' %}
+
+  <dialog-component
+    class="size-guide"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      on:click="/showDialog"
+      class="button button-unstyled size-guide__trigger"
+    >
+      Guía de talles
+    </button>
+
+    <dialog
+      ref="dialog"
+      class="size-guide__dialog dialog-modal color-custom-popover"
+      scroll-lock
+      aria-labelledby="size-guide-title-{{ block.id }}"
+    >
+      <h2
+        id="size-guide-title-{{ block.id }}"
+        class="size-guide__title"
+      >
+        Guía de talles
+      </h2>
+
+      <table class="size-guide__table">
+        <thead>
+          <tr>
+            <th scope="col">Talle</th>
+            <th scope="col">{{ col_1 }} (cm)</th>
+            <th scope="col">{{ col_2 }} (cm)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for row in rows_array -%}
+            {%- assign cells = row | split: '|' -%}
+            <tr>
+              <th scope="row">{{ cells[0] }}</th>
+              <td>{{ cells[1] }}</td>
+              <td>{{ cells[2] }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+      <button
+        type="button"
+        ref="closeButton"
+        on:click="/closeDialog"
+        class="button button-unstyled close-button size-guide__close"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </dialog>
+  </dialog-component>
+{%- endif -%}
+
+{% stylesheet %}
+  .size-guide {
+    display: block;
+  }
+
+  .size-guide__trigger {
+    font-family: var(--font-body--family);
+    font-size: var(--font-paragraph--size, 0.875rem);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+  }
+
+  .size-guide__dialog {
+    box-shadow: var(--shadow-popover);
+    border: var(--style-border-popover);
+    border-radius: var(--style-border-radius-popover);
+    background-color: var(--color-background);
+    padding: var(--padding-4xl) var(--padding-xl) var(--padding-xl);
+    max-width: var(--normal-content-width);
+    max-height: var(--modal-max-height);
+
+    @media screen and (min-width: 750px) {
+      padding: var(--padding-5xl);
+    }
+  }
+
+  .size-guide__dialog[open] {
+    animation: modalSlideInTop var(--animation-speed) var(--animation-easing) forwards;
+  }
+
+  .size-guide__dialog.dialog-closing {
+    animation: modalSlideOutTop var(--animation-speed) var(--animation-easing) forwards;
+  }
+
+  .size-guide__close {
+    top: var(--margin-2xs);
+    inset-inline-end: var(--margin-2xs);
+    opacity: 0.8;
+    animation: none;
+  }
+
+  .size-guide__title {
+    margin: 0 0 var(--margin-lg);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    color: var(--color-foreground);
+  }
+
+  .size-guide__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-paragraph--size, 0.875rem);
+    color: var(--color-foreground);
+  }
+
+  .size-guide__table th,
+  .size-guide__table td {
+    padding: var(--padding-sm) var(--padding-md);
+    text-align: start;
+    border-block-end: 1px solid var(--color-border);
+    font-weight: 400;
+  }
+
+  .size-guide__table thead th {
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+    color: var(--color-foreground-muted);
+  }
+
+  .size-guide__table tbody th {
+    font-weight: 400;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Size guide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Link that opens a size chart (cm) chosen by product type: Tops/Remeras or Shorts/Calzas. Hidden for any other type."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size guide",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

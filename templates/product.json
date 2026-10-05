@@ -181,6 +181,11 @@
               },
               "blocks": {}
             },
+            "size_guide_Sg1Abc": {
+              "type": "size-guide",
+              "settings": {},
+              "blocks": {}
+            },
             "model_fit_Mf1Xyz": {
               "type": "model-fit",
               "settings": {
@@ -257,6 +262,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "size_guide_Sg1Abc",
             "model_fit_Mf1Xyz",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
