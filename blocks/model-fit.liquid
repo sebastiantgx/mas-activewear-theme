@@ -2,6 +2,17 @@
   assign variant = closest.product.selected_or_first_available_variant
   assign model_height = variant.metafields.custom.modelo_estatura.value | strip
   assign model_size = variant.metafields.custom.modelo_talle.value | strip
+
+  comment
+    Height is stored as a bare number (e.g. 1.69); show it with a decimal comma and the unit.
+    A value that already includes the unit is left alone.
+  endcomment
+  if model_height != blank
+    assign model_height = model_height | replace: '.', ','
+    unless model_height contains 'm'
+      assign model_height = model_height | append: ' m'
+    endunless
+  endif
 -%}
 
 <product-model-fit
