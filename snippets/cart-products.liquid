@@ -59,7 +59,7 @@
 >
   {% if cart.empty? or force_empty %}
     {%- if shop.customer_accounts_enabled and customer == null -%}
-      <p>
+      <p class="cart-items__empty-login">
         {{ 'actions.log_in_html' | t: link: routes.account_login_url }}
       </p>
     {%- endif -%}
@@ -737,6 +737,10 @@
     object-position: center center;
     width: 100%;
     height: auto;
+  }
+
+  .cart-items__empty-login {
+    margin-block: var(--margin-lg);
   }
 
   .cart-items__empty-button {

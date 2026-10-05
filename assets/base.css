@@ -763,6 +763,12 @@ h6,
   margin-block-end: 0;
 }
 
+/* Bold text uses 600 (the loaded heading weight) instead of 700/900 */
+strong,
+b {
+  font-weight: 600;
+}
+
 /* Links */
 a {
   color: currentcolor;

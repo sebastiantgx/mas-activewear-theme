@@ -442,7 +442,7 @@
     --spacing-scale-default: 1.0;
 
     /* Checkout buttons gap */
-    --checkout-button-gap: 10px;
+    --checkout-button-gap: 12px;
 
     /* Borders */
     --style-border-width: 1px;
@@ -526,10 +526,10 @@
 
     /* Badges */
     --badge-rectangle-padding-block: 1px;
-    --badge-rectangle-padding-inline: 6px;
+    --badge-rectangle-padding-inline: 8px;
     @media screen and (min-width: 750px) {
       --badge-rectangle-padding-block: 4px;
-      --badge-rectangle-padding-inline: 10px;
+      --badge-rectangle-padding-inline: 12px;
     }
 
     /* Icons */
@@ -541,8 +541,8 @@
     --icon-stroke-width: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
 
     /* Input */
-    --input-padding-y: 0.8rem;
-    --input-padding-x: 0.8rem;
+    --input-padding-y: 0.75rem;
+    --input-padding-x: 0.75rem;
     --input-padding: var(--input-padding-y) var(--input-padding-x);
     --input-box-shadow-width: var(--style-border-width-inputs);
     --input-box-shadow: 0 0 0 var(--input-box-shadow-width) var(--color-input-border);
@@ -561,7 +561,7 @@
     @media screen and (min-width: 750px) {
       --checkbox-size: 16px;
       --checkbox-border-radius: 0;
-      --checkbox-label-padding: 6px;
+      --checkbox-label-padding: 8px;
     }
 
     /* Button size */
@@ -585,7 +585,7 @@
 
     /* Drawers */
     --drawer-header-desktop-top: 0rem;
-    --drawer-padding: calc(var(--padding-sm) + 7px);
+    --drawer-padding: var(--padding-xl);
     --drawer-height: 100dvh;
     --drawer-width: 95vw;
     --drawer-max-width: 500px;
