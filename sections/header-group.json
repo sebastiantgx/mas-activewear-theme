@@ -118,7 +118,7 @@
         "actions_font": "body",
         "actions_text_case": "none",
         "background_color_top": "{{ settings.color_palette.background }}",
-        "enable_transparent_header_home": false,
+        "enable_transparent_header_home": true,
         "enable_transparent_header_product": false,
         "enable_transparent_header_collection": false
       }
