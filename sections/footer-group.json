@@ -261,7 +261,7 @@
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 6,
+            "gap": 8,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -396,8 +396,8 @@
         "section_width": "page-width",
         "gap": 20,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 30,
-        "padding-block-end": 30
+        "padding-block-start": 32,
+        "padding-block-end": 32
       }
     },
     "footer_utilities_jLGE8U": {

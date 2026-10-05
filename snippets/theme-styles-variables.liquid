@@ -403,11 +403,11 @@
     --gradient-image-overlay: linear-gradient(to top, rgb(0 0 0 / 0.5), transparent);
 
     /* Spacing */
-    --margin-3xs: 0.125rem;
-    --margin-2xs: 0.3rem;
+    --margin-3xs: 0.25rem;
+    --margin-2xs: 0.25rem;
     --margin-xs: 0.5rem;
-    --margin-sm: 0.7rem;
-    --margin-md: 0.8rem;
+    --margin-sm: 0.75rem;
+    --margin-md: 0.75rem;
     --margin-lg: 1rem;
     --margin-xl: 1.25rem;
     --margin-2xl: 1.5rem;
@@ -415,11 +415,11 @@
     --margin-6xl: 5rem;
 
 
-    --padding-3xs: 0.125rem;
+    --padding-3xs: 0.25rem;
     --padding-2xs: 0.25rem;
     --padding-xs: 0.5rem;
-    --padding-sm: 0.7rem;
-    --padding-md: 0.8rem;
+    --padding-sm: 0.75rem;
+    --padding-md: 0.75rem;
     --padding-lg: 1rem;
     --padding-xl: 1.25rem;
     --padding-2xl: 1.5rem;
@@ -428,11 +428,11 @@
     --padding-5xl: 3rem;
     --padding-6xl: 4rem;
 
-    --gap-3xs: 0.125rem;
-    --gap-2xs: 0.3rem;
+    --gap-3xs: 0.25rem;
+    --gap-2xs: 0.25rem;
     --gap-xs: 0.5rem;
-    --gap-sm: 0.7rem;
-    --gap-md: 0.9rem;
+    --gap-sm: 0.75rem;
+    --gap-md: 1rem;
     --gap-lg: 1rem;
     --gap-xl: 1.25rem;
     --gap-2xl: 2rem;
@@ -446,11 +446,11 @@
 
     /* Borders */
     --style-border-width: 1px;
-    --style-border-radius-xs: 0.2rem;
-    --style-border-radius-sm: 0.6rem;
-    --style-border-radius-md: 0.8rem;
+    --style-border-radius-xs: 0;
+    --style-border-radius-sm: 0;
+    --style-border-radius-md: 0;
     --style-border-radius-50: 50%;
-    --style-border-radius-lg: 1rem;
+    --style-border-radius-lg: 0;
     --style-border-radius-pills: {{ settings.pills_border_radius }}px;
     --style-border-radius-inputs: {{ settings.inputs_border_radius }}px;
     --style-border-radius-buttons-primary: {{ settings.button_border_radius_primary }}px;
@@ -550,13 +550,13 @@
 
     /* Checkbox */
     --checkbox-size: 22px;
-    --checkbox-border-radius: 7px;
+    --checkbox-border-radius: 0;
     --checkbox-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
     --checkbox-label-padding: 8px;
 
     @media screen and (min-width: 750px) {
       --checkbox-size: 16px;
-      --checkbox-border-radius: 5px;
+      --checkbox-border-radius: 0;
       --checkbox-label-padding: 6px;
     }
 
@@ -577,7 +577,7 @@
     /* Borders */
     --border-color: rgb(var(--color-border-rgb) / var(--opacity-50));
     --border-width-sm: 1px;
-    --border-radius-sm: 0.25rem;
+    --border-radius-sm: 0;
 
     /* Drawers */
     --drawer-header-desktop-top: 0rem;

@@ -18,7 +18,7 @@
 
 {%- if value != blank -%}
   {%- if disable_scaling != true and value > min -%}
-    --{{ name }}: max({{ min }}px, calc(var(--gap-scale, 1.0) * {{ value }}px));
+    --{{ name }}: max({{ min }}px, round(nearest, calc(var(--gap-scale, 1.0) * {{ value }}px), 4px));
   {%- else -%}
     --{{ name }}: {{ value }}px;
   {%- endif -%}

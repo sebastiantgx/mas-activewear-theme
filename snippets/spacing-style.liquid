@@ -22,9 +22,9 @@
       if value > scale_min
         echo 'max('
         echo scale_min
-        echo 'px, calc(var(--spacing-scale) * '
+        echo 'px, round(nearest, calc(var(--spacing-scale) * '
         echo value
-        echo 'px))'
+        echo 'px), 4px))'
       else
         echo value
         echo 'px'
