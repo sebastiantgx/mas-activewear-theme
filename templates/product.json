@@ -139,7 +139,7 @@
                     "width": "100%",
                     "alignment": "left",
                     "font": "var(--font-body--family)",
-                    "font_size": "1rem",
+                    "font_size": "1.5rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -149,9 +149,20 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
+                },
+                "stock_label_Sl1Qwe": {
+                  "type": "stock-label",
+                  "settings": {
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
+                "stock_label_Sl1Qwe",
                 "text_xrnftG",
                 "price_tVjtKg"
               ]
@@ -189,11 +200,6 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {}
-            },
-            "size_guide_Sg1Abc": {
-              "type": "size-guide",
-              "settings": {},
               "blocks": {}
             },
             "model_fit_Mf1Xyz": {
@@ -242,24 +248,9 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
+            "short_description_Sd1Xyz": {
+              "type": "short-description",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -273,10 +264,9 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "low_stock_Ls1Qrt",
-            "size_guide_Sg1Abc",
             "model_fit_Mf1Xyz",
-            "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "short_description_Sd1Xyz",
+            "buy_buttons_eYQEYi"
           ]
         }
       },

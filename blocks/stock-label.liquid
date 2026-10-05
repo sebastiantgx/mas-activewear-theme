@@ -1,0 +1,68 @@
+{%- liquid
+  assign product_resource = closest.product
+  assign low_stock_total_threshold = 10
+  assign total_units = 0
+  assign all_tracked = true
+
+  comment
+    Product-level label: shown when the total stock across all variants is below the threshold.
+    Only when every variant has Shopify-tracked inventory (otherwise the total is not reliable).
+  endcomment
+  for product_variant in product_resource.variants
+    if product_variant.inventory_management == 'shopify'
+      if product_variant.inventory_quantity > 0
+        assign total_units = total_units | plus: product_variant.inventory_quantity
+      endif
+    else
+      assign all_tracked = false
+    endif
+  endfor
+-%}
+
+{%- if all_tracked and total_units > 0 and total_units < low_stock_total_threshold -%}
+  <p
+    class="stock-label spacing-style"
+    style="{% render 'spacing-style', settings: block.settings %} color: {{ settings.color_palette.color1 }};"
+    {{ block.shopify_attributes }}
+  >
+    Pocas unidades
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  .stock-label {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Stock label",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows \"Pocas unidades\" when the product's total stock is below 10 units (all variants tracked by Shopify). Hidden otherwise."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    { "type": "range", "id": "padding-block-start", "label": "t:settings.top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "t:settings.left", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end", "label": "t:settings.right", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    {
+      "name": "Stock label",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

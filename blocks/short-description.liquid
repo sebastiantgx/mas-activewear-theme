@@ -1,0 +1,96 @@
+{%- liquid
+  assign full_description = closest.product.description
+  assign plain_description = full_description | strip_html | strip_newlines | strip
+  assign short_description = plain_description | truncate: 80
+  assign is_truncated = false
+  if plain_description.size > 80
+    assign is_truncated = true
+  endif
+-%}
+
+{%- if plain_description != blank -%}
+  <div
+    class="short-description spacing-style"
+    style="{% render 'spacing-style', settings: block.settings %}"
+    {{ block.shopify_attributes }}
+  >
+    {%- if is_truncated -%}
+      <details class="short-description__details">
+        <summary class="short-description__summary">
+          <span class="short-description__text">{{ short_description | escape }}</span>
+          <span class="short-description__more">Leer más</span>
+        </summary>
+        <div class="short-description__full rte">{{ full_description }}</div>
+      </details>
+    {%- else -%}
+      <div class="short-description__full rte">{{ full_description }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .short-description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-paragraph--size, 0.9375rem);
+    color: var(--color-foreground);
+  }
+
+  .short-description__summary {
+    display: block;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .short-description__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .short-description__more {
+    margin-inline-start: 0.25em;
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  /* Expanding is one-way: once open, the full text replaces the summary */
+  .short-description__details[open] > .short-description__summary {
+    display: none;
+  }
+
+  .short-description__full > :first-child {
+    margin-block-start: 0;
+  }
+
+  .short-description__full > :last-child {
+    margin-block-end: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Short description",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the first ~80 characters of the product description with a \"Leer más\" link that expands the full text inline."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    { "type": "range", "id": "padding-block-start", "label": "t:settings.top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start", "label": "t:settings.left", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end", "label": "t:settings.right", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    {
+      "name": "Short description",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}
