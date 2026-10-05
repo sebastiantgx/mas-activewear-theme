@@ -1,7 +1,7 @@
 {%- liquid
   assign variant = closest.product.selected_or_first_available_variant
   assign model_height = variant.metafields.custom.modelo_estatura.value | strip
-  assign model_size = variant.metafields.custom.modelo_talle.value | strip
+  assign model_size = closest.product.metafields.custom.modelo_talle.value | strip
 -%}
 
 <product-model-fit
@@ -38,7 +38,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Shows \"Modelo: {estatura}, usa talle {talle}\" from the variant metafields custom.modelo_estatura and custom.modelo_talle. Hidden when either is empty."
+      "content": "Shows \"Modelo: {estatura}, usa talle {talle}\" from the variant metafield custom.modelo_estatura and the product metafield custom.modelo_talle. Hidden when either is empty."
     },
     {
       "type": "select",
