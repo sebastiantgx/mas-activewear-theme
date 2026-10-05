@@ -22,7 +22,7 @@
   {%- if low_stock_quantity > 0 -%}
     <p
       class="product-low-stock__text spacing-style"
-      style="{% render 'spacing-style', settings: block.settings %} color: {{ settings.color_palette.color1 }};"
+      style="{% render 'spacing-style', settings: block.settings %} color: var(--color-error);"
       role="status"
     >
       {%- if low_stock_quantity == 1 -%}
