@@ -12,92 +12,36 @@
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
-        "group_HeroCp": {
-          "type": "group",
-          "name": "Hero copy",
+        "text_VWgLj8": {
+          "type": "text",
+          "name": "t:names.heading",
           "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 12,
+            "text": "<p>MAS CONFORT + ESTILO</p>",
             "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h3",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {
-            "text_Hd1Lne": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Confort + estilo,<br>en cada movimiento.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "3.5rem",
-                "line_height": "tight",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_Sb1Ttl": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Encuentra el calce perfecto para tu entrenamiento.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "1.25rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_Hd1Lne",
-            "text_Sb1Ttl"
-          ]
+          "blocks": {}
         },
         "button_H9gpTf": {
           "type": "button",
           "name": "t:names.button",
           "settings": {
-            "label": "Ver tienda ↗",
+            "label": "Tienda",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
             "style_class": "button-custom",
@@ -113,7 +57,7 @@
         }
       },
       "block_order": [
-        "group_HeroCp",
+        "text_VWgLj8",
         "button_H9gpTf"
       ],
       "name": "t:names.hero",
@@ -127,11 +71,11 @@
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
-        "content_direction": "row",
+        "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "space-between",
         "vertical_alignment": "flex-end",
-        "align_baseline": false,
+        "align_baseline": true,
         "horizontal_alignment_flex_direction_column": "flex-end",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 40,
@@ -352,6 +296,74 @@
     "collection_list_aLcVMx": {
       "type": "collection-list",
       "blocks": {
+        "group_BYWahA": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_78VbrM": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h3>Compra por colección</h3>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_78VbrM"
+          ]
+        },
         "static-collection-card": {
           "type": "_collection-card",
           "name": "t:names.collection_card",
@@ -414,6 +426,9 @@
           ]
         }
       },
+      "block_order": [
+        "group_BYWahA"
+      ],
       "name": "t:names.collections_carousel",
       "settings": {
         "collection_list": [
@@ -426,7 +441,7 @@
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "columns": 5,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 8,
@@ -441,301 +456,11 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "section_Promos1": {
-      "type": "section",
-      "blocks": {
-        "group_bjqKGx": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "space-between",
-            "gap": 32,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fill",
-            "custom_height": 100,
-            "background_media": "image",
-            "background_color": "{{ settings.color_palette.color1 }}",
-            "video_position": "cover",
-            "background_image": "shopify://shop_images/0C5A9593.jpg",
-            "background_image_position": "cover",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "hero-apparel-2",
-            "padding-block-start": 40,
-            "padding-block-end": 40,
-            "padding-inline-start": 40,
-            "padding-inline-end": 40
-          },
-          "blocks": {
-            "spacer_cPE8yY": {
-              "type": "spacer",
-              "settings": {
-                "size": "pixel",
-                "percent_size": 100,
-                "pixel_size": 16,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
-                "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
-              },
-              "blocks": {}
-            },
-            "text_8qr3Gy": {
-              "type": "text",
-              "settings": {
-                "text": "<h3>Hecho para moverte.</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": true,
-                "background_color": "#0C0C0C94",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_DMeCdK": {
-              "type": "button",
-              "settings": {
-                "label": "Ver artículos",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button-custom",
-                "custom_button_background": "{{ settings.color_palette.background }}",
-                "custom_button_text": "{{ settings.color_palette.foreground }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            },
-            "text_PrL1Ab": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Descubre nuestra variedad de calzas, tops y shorts pensados para entrenar.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "spacer_cPE8yY",
-            "text_8qr3Gy",
-            "text_PrL1Ab",
-            "button_DMeCdK"
-          ]
-        },
-        "group_TBQBUF": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "space-between",
-            "gap": 32,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fill",
-            "custom_height": 100,
-            "background_media": "image",
-            "background_color": "{{ settings.color_palette.color1 }}",
-            "video_position": "cover",
-            "background_image": "shopify://shop_images/SHOOTING_MAS_13322.jpg",
-            "background_image_position": "cover",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "hero-apparel-1",
-            "padding-block-start": 40,
-            "padding-block-end": 40,
-            "padding-inline-start": 40,
-            "padding-inline-end": 40
-          },
-          "blocks": {
-            "spacer_h4JbcK": {
-              "type": "spacer",
-              "settings": {
-                "size": "pixel",
-                "percent_size": 100,
-                "pixel_size": 16,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
-                "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
-              },
-              "blocks": {}
-            },
-            "text_tEBMVh": {
-              "type": "text",
-              "settings": {
-                "text": "<h3>Comodidad en cada paso.</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": true,
-                "background_color": "#0C0C0CA6",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_krfQ7U": {
-              "type": "button",
-              "settings": {
-                "label": "Ver tienda",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button-custom",
-                "custom_button_background": "{{ settings.color_palette.background }}",
-                "custom_button_text": "{{ settings.color_palette.foreground }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            },
-            "text_PrR1Cd": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Prendas que se adaptan a tu cuerpo y acompañan tu ritmo.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "spacer_h4JbcK",
-            "text_tEBMVh",
-            "text_PrR1Cd",
-            "button_krfQ7U"
-          ]
-        }
-      },
-      "block_order": [
-        "group_bjqKGx",
-        "group_TBQBUF"
-      ],
-      "name": "t:names.split_showcase",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 0,
-        "section_width": "full-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "background_color": "{{ settings.color_palette.background }}",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "collection_list_aLcVMx",
-    "section_Promos1",
-    "product_list_GyJ7Xb"
+    "product_list_GyJ7Xb",
+    "collection_list_aLcVMx"
   ]
 }
