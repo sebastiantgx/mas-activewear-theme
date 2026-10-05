@@ -1,0 +1,105 @@
+{%- liquid
+  assign variant = closest.product.selected_or_first_available_variant
+  assign model_height = variant.metafields.custom.modelo_estatura.value | strip
+  assign model_size = variant.metafields.custom.modelo_talle.value | strip
+-%}
+
+<product-model-fit
+  class="product-model-fit"
+  {{ block.shopify_attributes }}
+  data-product-id="{{ closest.product.id }}"
+>
+  {%- if model_height != blank and model_size != blank -%}
+    <p
+      class="product-model-fit__text spacing-style {% if block.settings.type_preset != '' %}{{ block.settings.type_preset }}{% endif %}"
+      style="{% render 'spacing-style', settings: block.settings %}"
+    >
+      Modelo: {{ model_height | escape }}, usa talle {{ model_size | escape }}
+    </p>
+  {%- endif -%}
+</product-model-fit>
+
+{% stylesheet %}
+  /* Keep the element out of layout so an empty line adds no gap */
+  .product-model-fit {
+    display: contents;
+  }
+
+  .product-model-fit__text {
+    margin: 0;
+    color: var(--color-foreground-muted);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Model fit",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows \"Modelo: {estatura}, usa talle {talle}\" from the variant metafields custom.modelo_estatura and custom.modelo_talle. Hidden when either is empty."
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        { "value": "paragraph", "label": "t:options.paragraph" },
+        { "value": "h6", "label": "t:options.h6" }
+      ],
+      "default": "paragraph"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Model fit",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}
