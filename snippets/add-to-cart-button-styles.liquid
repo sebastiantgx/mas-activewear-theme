@@ -39,6 +39,26 @@
     }
   }
 
+  /* Press feedback: replaces the theme's 0.99 + 1px nudge with the shared press scale */
+  @media (prefers-reduced-motion: no-preference) {
+    .button.add-to-cart-button {
+      transition-duration: var(--animation-speed), var(--animation-speed), var(--animation-speed),
+        var(--duration-feedback), var(--animation-speed);
+    }
+
+    .button.add-to-cart-button:active:not(:disabled) {
+      scale: var(--scale-press);
+      translate: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button.add-to-cart-button:active {
+      scale: none;
+      translate: none;
+    }
+  }
+
   .add-to-cart-button .svg-wrapper .checkmark-burst {
     width: 30px;
     height: 30px;

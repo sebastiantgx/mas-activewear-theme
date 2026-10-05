@@ -194,6 +194,19 @@
     .variant-option__button-label {
       transition-property: background-color, border-color, color;
     }
+
+    /* Press feedback for size buttons and color swatches (scale is appended to the transition list) */
+    fieldset.variant-option .variant-option__button-label {
+      transition-property: background-color, border-color, color, scale;
+      transition-duration: var(--animation-speed), var(--animation-speed), var(--animation-speed),
+        var(--duration-feedback);
+      transition-timing-function: var(--animation-easing), var(--animation-easing), var(--animation-easing),
+        var(--ease-out-cubic);
+    }
+
+    fieldset.variant-option .variant-option__button-label:active {
+      scale: var(--scale-press);
+    }
   }
 
   .variant-option__button-label {

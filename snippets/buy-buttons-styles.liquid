@@ -140,6 +140,20 @@
     }
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .accelerated-checkout-block button.shopify-payment-button__button {
+      transition-property: color, box-shadow, background-color, scale;
+      transition-duration: var(--animation-speed), var(--animation-speed), var(--animation-speed),
+        var(--duration-feedback);
+      transition-timing-function: var(--animation-easing), var(--animation-easing), var(--animation-easing),
+        var(--ease-out-cubic);
+    }
+
+    .accelerated-checkout-block button.shopify-payment-button__button:active:not(:disabled) {
+      scale: var(--scale-press);
+    }
+  }
+
   shopify-accelerated-checkout {
     --shopify-accelerated-checkout-button-border-radius: var(--style-border-radius-buttons-primary);
     --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons);
