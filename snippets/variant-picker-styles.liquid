@@ -411,6 +411,11 @@
     stroke: rgb(var(--color-variant-text-rgb) / var(--opacity-subdued-text));
   }
 
+  /* Out-of-stock swatches (no stock in any size) are dimmed but stay clickable so the gallery can still switch to that color */
+  .variant-option__button-label--has-swatch:has([data-option-available='false']) .swatch {
+    opacity: var(--opacity-60);
+  }
+
   /* Disable the duplicate overlay line so the subdued stroke doesn't double up */
   .variant-option__button-label--has-swatch:has([data-option-available='false']) svg line:last-of-type {
     stroke: none;
