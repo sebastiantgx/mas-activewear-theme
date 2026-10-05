@@ -1776,7 +1776,7 @@ slideshow-component:focus-within > slideshow-container[animate-arrows] > slidesh
 
 ::-webkit-scrollbar-thumb {
   background-color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
-  border-radius: 20px;
+  border-radius: 0;
   border: 6px solid transparent;
   background-clip: content-box;
   transition: background-color 0.2s;

@@ -92,7 +92,7 @@
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_radius": 10
+            "border_radius": 0
           },
           "blocks": {
             "collection_title_7YgBPU": {
@@ -132,7 +132,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 10
+                "border_radius": 0
               },
               "blocks": {}
             }
