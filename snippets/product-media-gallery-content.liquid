@@ -124,6 +124,54 @@
   else
     assign sorted_media = selected_product.media
   endif
+
+  comment
+    Color filter: when the selected color matches the alt text of some media (case-insensitive,
+    exact), show only that media. If no media carries the color as alt text, keep the gallery
+    unfiltered so products without alt text loaded yet are not affected.
+  endcomment
+  assign color_name = ''
+  for product_option in selected_product.options_with_values
+    assign product_option_name = product_option.name | strip | downcase
+    if product_option_name == 'color' or product_option_name == 'colour'
+      assign color_name = product_option.selected_value
+    endif
+  endfor
+  if color_name == blank
+    assign color_name = selected_product.selected_or_first_available_variant.option1
+  endif
+  assign color_key = color_name | strip | downcase
+
+  assign color_media = '' | split: ','
+  if color_key != blank
+    for media in selected_product.media
+      assign media_alt = media.alt | strip | downcase
+      if media_alt == color_key
+        assign found_media = selected_product.media | where: 'id', media.id
+        assign color_media = color_media | concat: found_media
+      endif
+    endfor
+  endif
+
+  if color_media.size > 0
+    assign sorted_media = '' | split: ','
+    if selected_variant_media
+      assign found_media = color_media | where: 'id', selected_variant_media.id
+      assign sorted_media = sorted_media | concat: found_media
+    endif
+    for media in color_media
+      if media.id != selected_variant_media.id
+        assign found_media = color_media | where: 'id', media.id
+        assign sorted_media = sorted_media | concat: found_media
+      endif
+    endfor
+
+    if sorted_media.size <= 1
+      assign slideshow_class = 'product-media-gallery__slideshow--single-media slideshow--single-media'
+      assign render_slideshow_arrows = false
+    endif
+  endif
+
   assign has_image_drop = sorted_media | has: 'media_type', 'image'
 
   # Determine if we're in single column mode (carousel or grid with one column)
