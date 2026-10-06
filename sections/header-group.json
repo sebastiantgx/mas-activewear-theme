@@ -19,7 +19,7 @@
           "name": "t:names.announcement",
           "disabled": true,
           "settings": {
-            "text": "Shop our latest arrivals!",
+            "text": "¡Descubrí nuestras últimas novedades!",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",

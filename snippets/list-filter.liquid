@@ -48,7 +48,13 @@
     {% endif %}
   >
     <summary class="facets__summary">
-      <span class="facets__label">{{ filter.label }}</span>
+      <span class="facets__label">
+        {%- if filter.param_name == 'filter.v.availability' -%}
+          {{ 'content.availability' | t }}
+        {%- else -%}
+          {{ filter.label }}
+        {%- endif -%}
+      </span>
 
       <div class="facets__status-wrapper">
         {% if is_swatch %}
