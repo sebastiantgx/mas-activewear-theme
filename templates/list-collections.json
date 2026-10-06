@@ -54,7 +54,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Colección</p>",
+                "text": "<p>Colecciones</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
