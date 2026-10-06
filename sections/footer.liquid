@@ -128,6 +128,35 @@
     }
   }
 
+  /* Stacked on small screens: center the logo, copy and menu */
+  @media screen and (max-width: 749px) {
+    .footer-content {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .footer-content .group-block .group-block-content {
+      align-items: center;
+    }
+
+    /* Text blocks carry their own left/right alignment; on small screens they all center */
+    .footer-content .text-block,
+    .footer-content .text-block > * {
+      text-align: center !important;
+    }
+
+    .footer-content .menu,
+    .footer-content .menu a,
+    .footer-content .menu__heading {
+      text-align: center;
+    }
+
+    .footer-content .menu__heading,
+    .footer-content .menu__item {
+      justify-content: center;
+    }
+  }
+
   /* Three columns: size to content and spread edge to edge */
   @media screen and (min-width: 750px) {
     .footer-content[style*='--grid-columns: 3'] {

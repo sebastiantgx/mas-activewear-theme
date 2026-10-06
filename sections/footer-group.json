@@ -136,7 +136,8 @@
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "text_color": "{{ settings.color_palette.color1 }}"
               },
               "blocks": {}
             }
@@ -199,7 +200,7 @@
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
-        "gap": 20,
+        "gap": 40,
         "background_color": "#F1EFE3",
         "padding-block-start": 48,
         "padding-block-end": 96
