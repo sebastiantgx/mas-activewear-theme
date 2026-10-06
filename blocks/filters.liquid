@@ -116,6 +116,8 @@
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
 
+      {% # The collection grid shows one card per product color, so a product count would not match the cards on screen. %}
+      {% unless template.name == 'collection' %}
       <div
         class="products-count-wrapper"
         data-testid="products-count"
@@ -128,6 +130,7 @@
           {% endif %}
         </span>
       </div>
+      {% endunless %}
 
       {% if block_settings.enable_sorting %}
         {% render 'sorting',
@@ -278,6 +281,7 @@
               {% endif %}
             {% endif %}
             {% if block_settings.filter_style == 'horizontal' %}
+              {% unless template.name == 'collection' %}
               <div
                 class="products-count-wrapper"
                 data-testid="products-count"
@@ -290,6 +294,7 @@
                   {% endif %}
                 </span>
               </div>
+              {% endunless %}
 
               {% if block_settings.enable_sorting %}
                 {% render 'sorting',
@@ -1151,6 +1156,13 @@
       flex-shrink: 0;
       align-items: center;
       height: var(--minimum-touch-target);
+    }
+  }
+
+  /* Without the products count (hidden on the collection page) the sorting control takes over its job of pushing the controls to the end of the bar */
+  .facets--horizontal .facets__form > :not(.products-count-wrapper) + .sorting-filter__horizontal {
+    @media screen and (min-width: 750px) {
+      margin-inline-start: auto;
     }
   }
 

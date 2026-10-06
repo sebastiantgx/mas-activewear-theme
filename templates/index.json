@@ -190,7 +190,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3><strong>MAS+ Estilo</strong></h3>",
+                "text": "<h3><strong>Destacados</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -332,7 +332,7 @@
       },
       "name": "Featured collection",
       "settings": {
-        "collection": "frontpage",
+        "collection": "destacados",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 6,
@@ -419,7 +419,7 @@
       "name": "t:names.collections_carousel",
       "settings": {
         "collection_list": [
-          "frontpage",
+          "destacados",
           "short-v",
           "calzas",
           "top-bra",
