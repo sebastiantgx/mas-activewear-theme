@@ -33,47 +33,65 @@
     {% if section.settings.collection != blank and shop.products_count != 0 %}
       {% paginate section.settings.collection.products by max_items %}
         {% for product in section.settings.collection.products limit: max_items %}
-        <div
-          class="resource-list__item"
-        >
-            {% content_for 'block',
-              type: '_product-card',
-              id: 'static-product-card',
-              closest.product: product,
-              product_view_context: 'collection'
+          {% liquid
+            assign has_color_option = false
+            for option in product.options_with_values
+              assign option_name = option.name | strip | downcase
+              if option_name == 'color' or option_name == 'colour'
+                assign has_color_option = true
+              endif
+            endfor
+          %}
+          {% if has_color_option %}
+            {% # One card per color, same rule as the collection grid: the media alt text names the color %}
+            {% render 'product-color-cards',
+              product: product,
+              section: section,
+              base_index: forloop.index0,
+              paginate_page: 1,
+              hide_sold_out: false,
+              product_view_context: 'collection',
+              layout: 'carousel'
             %}
-          </div>
-
-          {% unless forloop.last %}
+          {% else %}
             <!--@list/split-->
-          {% endunless %}
+            <div
+              class="resource-list__item"
+            >
+              {% content_for 'block',
+                type: '_product-card',
+                id: 'static-product-card',
+                closest.product: product,
+                product_view_context: 'collection'
+              %}
+            </div>
+          {% endif %}
         {% endfor %}
       {% endpaginate %}
     {% else %}
       {% for i in (1..max_items) %}
+        <!--@list/split-->
         <div
           class="resource-list__item"
         >
             {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: null %}
         </div>
-
-        {% unless forloop.last %}
-          <!--@list/split-->
-        {% endunless %}
       {% endfor %}
     {% endif %}
   {% endcapture %}
 
   {% liquid
-    # Create an array from the list items to be used for different layout types
-    assign list_items_array = list_items | strip | split: '<!--@list/split-->'
+    # Every item is preceded by the split marker, so drop the leading one before splitting.
+    # Per-color cards make the item count differ from max_products, so slide_count follows the real count.
+    assign list_items_array = list_items | strip | remove_first: '<!--@list/split-->' | split: '<!--@list/split-->'
+    assign item_count = list_items_array.size
   %}
 
   {% render 'resource-list',
     list_items: list_items,
     list_items_array: list_items_array,
     settings: section.settings,
-    slide_count: max_items,
+    slide_count: item_count,
     content_type: 'products',
     test_id: 'resource-list-grid'
   %}
