@@ -927,11 +927,13 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   outline-color: var(--button-focus-outline-color, var(--button-background-color));
 }
 
-/* Glass CTA: translucent custom buttons over imagery (hero and image groups) get a backdrop blur */
+/* Outline CTA over imagery (hero and image groups): tighter than the default button, never below the 44px touch target */
 .hero .button-custom,
-.group-block:has(> .group-block__media-wrapper) .button-custom {
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+.group-block:has(> .group-block__media-wrapper :is(img, video)) .button-custom {
+  --button-padding-block: 10px;
+  --button-border-width: 1px;
+
+  min-height: 44px;
 }
 
 .button-custom:hover {

@@ -9,7 +9,7 @@
 {%- enddoc -%}
 
 <div
-  class="overlay overlay--{{ settings.overlay_style | default: 'gradient' }}"
+  class="overlay overlay--{{ settings.overlay_style | default: 'gradient' }}{% if settings.overlay_style == 'gradient' and settings.gradient_direction == 'to top right' %} overlay--corner{% endif %}"
   style="
     --overlay-layer: {{ layer | default: 'var(--layer-flat)' }};
     --overlay-color: {{ settings.overlay_color | default: 'rgb(0 0 0 / var(--opacity-25))' }};
@@ -34,5 +34,16 @@
 
   .overlay--gradient {
     background: linear-gradient(var(--overlay-direction), var(--overlay-color), var(--overlay-color--end));
+  }
+
+  /* Localized shadow: radial fade anchored at the bottom-left corner, transparent beyond its radius */
+  .overlay--corner {
+    background: radial-gradient(ellipse 45% 55% at 0 100%, var(--overlay-color), var(--overlay-color--end));
+  }
+
+  @media screen and (max-width: 749px) {
+    .overlay--corner {
+      background: radial-gradient(ellipse 110% 50% at 0 100%, var(--overlay-color), var(--overlay-color--end));
+    }
   }
 {% endstylesheet %}

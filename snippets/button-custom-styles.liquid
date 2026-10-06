@@ -62,4 +62,27 @@
       --button-border-color: {{ effective_hover_border }};
     }
   {% endstyle %}
+
+  {%- comment -%}
+    Hover for buttons over imagery (hero and image groups):
+    outline buttons fill white with dark text, filled buttons keep their fill and gain a dark line.
+    Other custom buttons (e.g. add to cart) keep the computed hover above.
+  {%- endcomment -%}
+  {%- capture image_hover_selector -%}
+    .hero .button-custom--{{ block_id }}:hover,
+    .group-block:has(> .group-block__media-wrapper :is(img, video)) .button-custom--{{ block_id }}:hover
+  {%- endcapture -%}
+  {% style %}
+    {{ image_hover_selector }} {
+      {%- if effective_background_color.alpha == 0 %}
+      --button-background-color: #fff;
+      --button-color: rgb({{ settings.color_palette.foreground.rgb }});
+      --button-border-color: #fff;
+      {%- else %}
+      --button-background-color: rgb({{ effective_background_color.rgba }});
+      --button-color: rgb({{ effective_text_color.rgba }});
+      --button-border-color: rgb({{ settings.color_palette.foreground.rgb }});
+      {%- endif %}
+    }
+  {% endstyle %}
 {% endif %}
