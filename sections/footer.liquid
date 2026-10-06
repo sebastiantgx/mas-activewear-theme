@@ -64,6 +64,11 @@
     align-items: start;
   }
 
+  /* A group set to fill height spans the whole row so its content can sit top and bottom */
+  .footer-content > .group-block--height-fill {
+    align-self: stretch;
+  }
+
   .footer-content .menu__heading__default {
     font-weight: var(--font-heading--weight);
   }
@@ -151,9 +156,27 @@
       text-align: center;
     }
 
+    /* The brand subtitle stays on one line: 14px where it fits, shrinking with the viewport on narrow phones */
+    .footer-content .group-block .group-block .text-block:last-child,
+    .footer-content .group-block .group-block .text-block:last-child > * {
+      font-size: min(0.875rem, 3.4vw);
+    }
+
     .footer-content .menu__heading,
     .footer-content .menu__item {
       justify-content: center;
+    }
+  }
+
+  /* Side by side: line up the visible tops of the logo, Explorar and the shipping text.
+     The logo JPG carries blank space above the wordmark and the shipping paragraph sits lower than the menu heading. */
+  @media screen and (min-width: 750px) {
+    .footer-content[style*='--grid-columns: 3'] > :first-child .logo-block {
+      margin-block-start: -18px;
+    }
+
+    .footer-content[style*='--grid-columns: 3'] > :last-child .text-block {
+      margin-block-start: -3px;
     }
   }
 
