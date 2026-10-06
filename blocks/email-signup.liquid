@@ -28,6 +28,9 @@
     {% comment %} --- Input group classes --- {% endcomment %}
     {%- liquid
       assign input_group_classes = 'email-signup__input-group'
+      if block_settings.stack_vertically and block_settings.integrated_button != true and block_settings.border_style != 'underline'
+        assign input_group_classes = input_group_classes | append: ' email-signup__input-group--stacked'
+      endif
       if block_settings.integrated_button and block_settings.border_style != 'underline'
         assign input_group_classes = input_group_classes | append: ' email-signup__input-group--integrated'
       endif
@@ -174,6 +177,24 @@
     @media screen and (max-width: 749px) {
       flex-direction: column;
     }
+  }
+
+  /* Stacked: input on top, button below at the same width, at every breakpoint */
+  .email-signup__input-group.email-signup__input-group--stacked:not(.email-signup__input-group--underline) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Same dimensions as the rest of the theme's buttons: 44px tall, standard inline padding */
+  .email-signup__input-group--stacked .email-signup__input {
+    text-align: center;
+  }
+
+  .email-signup__input-group--stacked .email-signup__button {
+    padding: 10px var(--button-padding-inline);
+    width: fit-content;
+    min-height: 44px;
+    align-self: center;
   }
 
   .email-signup__input-group--integrated {
@@ -716,6 +737,13 @@
       "label": "t:settings.integrated_button",
       "default": false,
       "visible_if": "{{ block.settings.border_style != \"underline\" }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_vertically",
+      "label": "Stack input and button vertically",
+      "default": false,
+      "visible_if": "{{ block.settings.border_style != \"underline\" and block.settings.integrated_button == false }}"
     },
     {
       "type": "select",

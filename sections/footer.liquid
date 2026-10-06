@@ -68,6 +68,13 @@
     font-weight: var(--font-heading--weight);
   }
 
+  /* Menu type presets stop at 14px for headings and links, so the footer menu is sized here to match the larger footer copy */
+  .footer-content .menu__heading,
+  .footer-content .menu__item,
+  .footer-content .menu a {
+    font-size: 1.125rem;
+  }
+
   /* The menu heading carries tap padding for the mobile accordion; drop it where columns sit side by side so headings start level */
   @media screen and (min-width: 750px) {
     .footer-content .menu__heading {

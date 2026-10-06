@@ -47,7 +47,7 @@
                 "font": "heading",
                 "unit": "pixel",
                 "percent_width": 100,
-                "pixel_height": 48,
+                "pixel_height": 64,
                 "custom_mobile_size": false,
                 "unit_mobile": "percent",
                 "percent_width_mobile": 100,
@@ -67,9 +67,9 @@
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "paragraph",
+                "type_preset": "custom",
                 "font": "var(--font-body--family)",
-                "font_size": "",
+                "font_size": "1.125rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -115,31 +115,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_Sh1Hdg": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h5>Envíos</h5>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "right",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "text_Sh1Txt": {
               "type": "text",
               "name": "t:names.heading",
@@ -148,9 +123,9 @@
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "right",
-                "type_preset": "paragraph",
+                "type_preset": "custom",
                 "font": "var(--font-body--family)",
-                "font_size": "",
+                "font_size": "1.125rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -167,7 +142,6 @@
             }
           },
           "block_order": [
-            "text_Sh1Hdg",
             "text_Sh1Txt"
           ]
         },
@@ -228,7 +202,7 @@
         "gap": 20,
         "background_color": "#F1EFE3",
         "padding-block-start": 48,
-        "padding-block-end": 32
+        "padding-block-end": 96
       }
     },
     "footer_utilities_jLGE8U": {
@@ -238,7 +212,7 @@
           "type": "footer-copyright",
           "settings": {
             "show_powered_by": true,
-            "font_size": "0.75rem",
+            "font_size": "0.875rem",
             "case": "none"
           },
           "blocks": {}
@@ -248,7 +222,7 @@
           "settings": {
             "terms_label": "Términos y condiciones",
             "privacy_label": "Política de privacidad",
-            "font_size": "0.75rem",
+            "font_size": "0.875rem",
             "case": "none"
           },
           "blocks": {}
@@ -257,7 +231,7 @@
           "type": "footer-back-to-top",
           "settings": {
             "label": "Volver arriba",
-            "font_size": "0.75rem",
+            "font_size": "0.875rem",
             "case": "none"
           },
           "blocks": {}
@@ -321,7 +295,7 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<p>Únete a nuestra lista de correo</p>",
+                "text": "<p>Ofertas exclusivas, antes que nadie.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -345,10 +319,10 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Obtén ofertas exclusivas y acceso anticipado a nuevos productos.</p>",
+                "text": "<p>Sumate a la lista y enterate primero de cada drop.</p>",
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "center",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
@@ -382,10 +356,11 @@
                 "label": "Inscribirse",
                 "integrated_button": false,
                 "button_type_preset": "paragraph",
-                "padding-block-start": 0,
+                "padding-block-start": 12,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "stack_vertically": true
               },
               "blocks": {}
             }
@@ -404,9 +379,9 @@
       "settings": {
         "section_width": "page-width",
         "gap": 20,
-        "background_color": "#F1EFE3",
+        "background_color": "#EAE8DD",
         "padding-block-start": 48,
-        "padding-block-end": 32
+        "padding-block-end": 48
       }
     }
   },
