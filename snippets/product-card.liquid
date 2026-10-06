@@ -8,6 +8,9 @@
   @param {object} [block] - The block object
   @param {number} [product_card_gap] - The gap between the product card children (overrides block settings)
   @param {string} [product_view_context] - The context in which the product card is being rendered. Used for standard events.
+  @param {string} [card_url] - Overrides the card link (e.g. a per-color card linking to ?variant=).
+  @param {string} [card_label] - Overrides the card link's accessible name.
+  @param {string} [card_id_suffix] - Appended to element ids so several cards of the same product stay unique.
 {%- enddoc -%}
 
 {% assign block_settings = block.settings %}
@@ -32,7 +35,7 @@
     assign has_mobile_quick_add = true
   endif
 
-  assign product_card_id = 'product-card-link-' | append: block.id | append: '-' | append: product.id
+  assign product_card_id = 'product-card-link-' | append: block.id | append: '-' | append: product.id | append: card_id_suffix
   assign product_card_gap_value = product_card_gap | default: block_settings.product_card_gap
 
   # variant_to_link drives the featured image used by the main-product view transition.
@@ -63,7 +66,7 @@
   class="product-card size-style"
   style="{% render 'size-style', settings: block_settings %}"
   data-product-id="{{ product.id }}"
-  id="product-card-{{ block.id }}"
+  id="product-card-{{ block.id }}{{ card_id_suffix }}"
   {% if settings.transition_to_main_product %}
     data-product-transition="true"
     data-featured-media-url="{{ featured_media_url }}"
@@ -81,11 +84,11 @@
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}
       {% # Link to product.url so algorithmic variant relevance and tracking params are maintained. %}
-      href="{{ product.url }}"
+      href="{{ card_url | default: product.url }}"
     {% endunless %}
     class="product-card__link"
     ref="productCardLink"
-    aria-label="{{ product.title | escape }}"
+    aria-label="{{ card_label | default: product.title | escape }}"
   ></a>
   <div
     class="

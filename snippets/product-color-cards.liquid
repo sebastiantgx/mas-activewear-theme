@@ -1,0 +1,253 @@
+{%- doc -%}
+  Renders one product grid card per value of the product's Color option, for the collection grid.
+
+  Each card shows:
+  - the first media whose alt text equals the color (case-insensitive). A color with no such media gets no card.
+  - the title "Product — Color"
+  - the lowest price among that color's variants
+  - a link to ?variant= of the first available size of that color
+  - the sold out badge when every size of that color is unavailable (the card is still shown)
+
+  Filtering is applied by Shopify per product, so two cases are narrowed here per color:
+  - availability "in stock" active: sold out colors are not rendered
+  - price range active: colors whose lowest price falls outside the range are not rendered
+
+  Products without a Color option are not handled here; the caller renders its regular card.
+
+  @param {object} product - The product
+  @param {object} section - The section object
+  @param {number} base_index - Index of the product in the page, used for the grid item class
+  @param {number} paginate_page - Current page number
+  @param {boolean} hide_sold_out - Whether sold out colors are hidden (availability filter active)
+  @param {number} [price_filter_min] - Active price filter minimum, in the smallest currency unit
+  @param {number} [price_filter_max] - Active price filter maximum, in the smallest currency unit
+  @param {string} [product_view_context] - Context passed to the card for standard events
+{%- enddoc -%}
+
+{%- liquid
+  assign color_values = blank
+  assign color_index = 0
+  for option in product.options_with_values
+    assign option_name = option.name | strip | downcase
+    if option_name == 'color' or option_name == 'colour'
+      assign color_values = option.values
+      assign color_index = option.position | minus: 1
+    endif
+  endfor
+
+  # Same sizing logic as the regular card gallery so images are requested at the right width
+  assign image_sizes = '(min-width: 750px) 50vw, 100vw'
+  if section.settings.product_card_size
+    assign mobile_image_size = '100vw'
+    if section.settings.mobile_product_card_size == 'small'
+      assign mobile_image_size = '50vw'
+    endif
+    capture card_size
+      render 'util-product-grid-card-size', section: section
+    endcapture
+    assign card_size = card_size | strip | replace: 'px', '' | plus: 0
+    capture sizes_attribute
+      render 'util-autofill-img-size-attr', card_size: card_size, card_gap: section.settings.columns_gap_horizontal, mobile_size: mobile_image_size
+    endcapture
+    assign image_sizes = sizes_attribute | strip
+  endif
+-%}
+
+{%- for color in color_values -%}
+  {%- liquid
+    assign first_variant = null
+    assign available_variant = null
+    assign color_min_price = null
+    for variant in product.variants
+      if variant.options[color_index] == color
+        if first_variant == null
+          assign first_variant = variant
+        endif
+        if variant.available and available_variant == null
+          assign available_variant = variant
+        endif
+        if color_min_price == null or variant.price < color_min_price
+          assign color_min_price = variant.price
+        endif
+      endif
+    endfor
+
+    # Same convention as the PDP gallery: the media alt text is the color name
+    assign color_key = color | strip | downcase
+    assign card_media = null
+    for media in product.media
+      assign media_alt_key = media.alt | strip | downcase
+      if media_alt_key == color_key
+        assign card_media = media
+        break
+      endif
+    endfor
+
+    assign link_variant = available_variant | default: first_variant
+    assign sold_out = true
+    if available_variant != null
+      assign sold_out = false
+    endif
+
+    assign show_card = true
+    if link_variant == null or card_media == null
+      assign show_card = false
+    endif
+    if sold_out and hide_sold_out
+      assign show_card = false
+    endif
+    if price_filter_min != null and color_min_price < price_filter_min
+      assign show_card = false
+    endif
+    if price_filter_max != null and color_min_price > price_filter_max
+      assign show_card = false
+    endif
+  -%}
+
+  {%- if show_card -%}
+    {%- liquid
+      assign color_handle = color | handleize
+
+      assign card_label = product.title | append: ' — ' | append: color
+      # product.url may already carry tracking params (and a variant when filters are active): keep them, set our variant
+      assign url_parts = product.url | split: '?'
+      assign card_url = url_parts[0] | append: '?variant=' | append: link_variant.id
+      if url_parts[1] != blank
+        assign url_pairs = url_parts[1] | split: '&'
+        for url_pair in url_pairs
+          unless url_pair contains 'variant='
+            assign card_url = card_url | append: '&' | append: url_pair
+          endunless
+        endfor
+      endif
+      assign card_price = color_min_price
+      assign compare_at_price = link_variant.compare_at_price
+      assign on_sale = false
+      if compare_at_price > link_variant.price
+        assign on_sale = true
+      endif
+      assign has_badge = false
+      if sold_out or on_sale
+        assign has_badge = true
+      endif
+
+      assign loading = 'lazy'
+      assign sizes = 'auto, ' | append: image_sizes
+      if section.index == null or section.index < 5
+        if base_index < 4
+          assign loading = 'eager'
+          assign sizes = image_sizes
+        endif
+      endif
+
+      assign ratio = card_media.preview_image.aspect_ratio | default: '1'
+    -%}
+
+    <li
+      id="{{ section.id }}-{{ product.id }}-{{ color_handle }}"
+      class="product-grid__item product-grid__item--{{ base_index }}"
+      data-page="{{ paginate_page }}"
+      data-product-id="{{ product.id }}"
+      data-product-color="{{ color | escape }}"
+      ref="cards[]"
+    >
+      {%- capture card_children -%}
+        <div
+          ref="cardGallery"
+          class="card-gallery card-gallery-color spacing-style border-style{% if has_badge %} card-gallery--badge-{{ settings.badge_position }}{% endif %}"
+          style="
+            --border-width: 1px; --border-style: none; --border-color: rgb(var(--color-border-rgb) / 1.0); --border-radius: 0px;
+            --padding-block-start: 0px;--padding-block-end: 0px;--padding-inline-start: 0px;--padding-inline-end: 0px;
+            --gallery-aspect-ratio: {{ ratio }};
+          "
+          data-product-id="{{ product.id }}-{{ color_handle }}"
+          data-image-ratio="adapt"
+        >
+          <a
+            class="contents"
+            ref="cardGalleryLink"
+            href="{{ card_url }}"
+            aria-label="{{ card_label | escape }}"
+          >
+            <div
+              class="product-media-container media-fit product-media-container--{{ card_media.media_type }}"
+              style="--product-media-fit: cover;"
+            >
+              {% render 'product-media',
+                media: card_media,
+                sizes: sizes,
+                loading: loading,
+                preview_image_only: true
+              %}
+            </div>
+          </a>
+          {%- if has_badge -%}
+            <div
+              class="product-badges product-badges--{{ settings.badge_position }}"
+              style="
+                --badge-border-radius: {{ settings.badge_corner_radius }}px;
+                --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
+              "
+            >
+              <div
+                class="
+                  product-badges__badge product-badges__badge--rectangle
+                  {% if sold_out %} color-custom-badge-sold-out{% else %} color-custom-badge-sale{% endif %}
+                "
+              >
+                {%- if sold_out -%}
+                  {{ 'content.product_badge_sold_out' | t }}
+                {%- else -%}
+                  {{ 'content.product_badge_sale' | t }}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <h3 class="product-grid-view-zoom-out--details">{{ card_label }}</h3>
+
+        <a
+          class="contents user-select-text"
+          ref="productTitleLink"
+          href="{{ card_url }}"
+        >
+          <div
+            class="spacing-style text-block rte text-block--align-left"
+            style="
+              --padding-block-start: 4px; --padding-block-end: 0px; --padding-inline-start: 0px; --padding-inline-end: 0px;
+              --width: 100%; --max-width: var(--max-width--body-normal); --text-align: start;
+            "
+          >
+            <p role="heading" aria-level="3">{{ card_label }}</p>
+          </div>
+        </a>
+
+        <product-price
+          class="text-block text-block--align-left text-left h6 spacing-style"
+          data-product-id="{{ product.id }}"
+          style="
+            --padding-block-start: 0px; --padding-block-end: 0px; --padding-inline-start: 0px; --padding-inline-end: 0px;
+            --width: 100%;
+          "
+        >
+          <span class="price">
+            {%- if on_sale -%}
+              <s>{{ compare_at_price | money }}</s>
+            {%- endif -%}
+            {{ card_price | money }}
+          </span>
+        </product-price>
+      {%- endcapture -%}
+
+      {% render 'product-card',
+        product: product,
+        children: card_children,
+        card_url: card_url,
+        card_label: card_label,
+        card_id_suffix: color_handle,
+        product_view_context: product_view_context
+      %}
+    </li>
+  {%- endif -%}
+{%- endfor -%}

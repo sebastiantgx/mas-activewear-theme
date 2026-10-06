@@ -53,29 +53,67 @@
         results_size: collection.products_count
       %}
 
-      {% assign products_per_page = 24 %}
+      {% assign products_per_page = section.settings.products_per_page %}
 
-      {% if section.settings.enable_infinite_scroll == false %}
-        {% assign products_per_page = section.settings.products_per_page %}
-      {% endif %}
+      {% liquid
+        # Shopify filters and paginates by product. Per-color cards are derived from the filtered products,
+        # so two filters are narrowed per color: in-stock availability and the price range.
+        assign hide_sold_out = false
+        assign price_filter_min = null
+        assign price_filter_max = null
+        for filter in collection.filters
+          if filter.param_name == 'filter.v.availability'
+            for active_value in filter.active_values
+              if active_value.value == '1'
+                assign hide_sold_out = true
+              endif
+            endfor
+          elsif filter.type == 'price_range'
+            assign price_filter_min = filter.min_value.value
+            assign price_filter_max = filter.max_value.value
+          endif
+        endfor
+      %}
 
       {% paginate collection.products by products_per_page %}
         {% capture children %}
           {% for product in collection.products %}
-            <li
-              id="{{ section.id }}-{{ product.id }}"
-              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-              data-page="{{ paginate.current_page }}"
-              data-product-id="{{ product.id }}"
-              ref="cards[]"
-            >
-              {% content_for 'block',
-                type: '_product-card',
-                id: 'product-card',
-                closest.product: product,
+            {% liquid
+              assign has_color_option = false
+              for option in product.options_with_values
+                assign option_name = option.name | strip | downcase
+                if option_name == 'color' or option_name == 'colour'
+                  assign has_color_option = true
+                endif
+              endfor
+            %}
+            {% if has_color_option %}
+              {% render 'product-color-cards',
+                product: product,
+                section: section,
+                base_index: forloop.index0,
+                paginate_page: paginate.current_page,
+                hide_sold_out: hide_sold_out,
+                price_filter_min: price_filter_min,
+                price_filter_max: price_filter_max,
                 product_view_context: 'collection'
               %}
-            </li>
+            {% else %}
+              <li
+                id="{{ section.id }}-{{ product.id }}"
+                class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+                data-page="{{ paginate.current_page }}"
+                data-product-id="{{ product.id }}"
+                ref="cards[]"
+              >
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'product-card',
+                  closest.product: product,
+                  product_view_context: 'collection'
+                %}
+              </li>
+            {% endif %}
           {% endfor %}
         {% endcapture %}
 
@@ -165,11 +203,10 @@
       "type": "range",
       "id": "products_per_page",
       "label": "t:settings.products_per_page",
-      "min": 8,
+      "min": 2,
       "max": 36,
-      "step": 4,
-      "default": 24,
-      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
+      "step": 2,
+      "default": 6
     },
     {
       "type": "header",
