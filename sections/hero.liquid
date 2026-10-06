@@ -548,6 +548,19 @@
   </div>
 </div>
 
+{% liquid
+  assign hero_title_font = settings.type_heading_font | font_modify: 'weight', '400'
+%}
+{% style %}
+  {{ hero_title_font | font_face: font_display: 'swap' }}
+  .hero .text-block.h2,
+  .hero .text-block.h2 > * {
+    font-family: {{ hero_title_font.family }}, {{ hero_title_font.fallback_families }};
+    font-weight: {{ hero_title_font.weight }};
+    font-style: {{ hero_title_font.style }};
+  }
+{% endstyle %}
+
 {% stylesheet %}
   .hero-wrapper {
     --hero-height-offset: 0px;
@@ -556,6 +569,12 @@
   /* Being extra specific in the selector for performance reasons */
   body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child {
     --hero-height-offset: var(--header-group-height, 0);
+  }
+
+  /* Hero title is display-sized: 96px on desktop, scaling down to 56px on small screens */
+  .hero .text-block.h2,
+  .hero .text-block.h2 > * {
+    font-size: clamp(3.5rem, 7vw, 6rem);
   }
 
   .hero {
