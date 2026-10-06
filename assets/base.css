@@ -786,10 +786,10 @@ a {
 /* Add underline to text using our paragraph styles only. */
 p:not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)),
 .rte :is(p, ul, ol, table):not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)) {
-  text-decoration-color: var(--color-accent);
+  text-decoration-color: var(--color-foreground);
 
   &:hover {
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: var(--color-foreground);
     color: rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.7);
   }
 }
@@ -930,8 +930,8 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 /* Glass CTA: translucent custom buttons over imagery (hero and image groups) get a backdrop blur */
 .hero .button-custom,
 .group-block:has(> .group-block__media-wrapper) .button-custom {
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
 .button-custom:hover {

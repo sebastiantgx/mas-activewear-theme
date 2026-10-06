@@ -4,9 +4,9 @@
 
 {% comment %} Compute palette lightest & darkest once for smart contrast {% endcomment %}
 {% liquid
-  assign palette_lightest = '#ffffff'
+  assign palette_lightest = settings.color_palette.background
   assign palette_lightest_brightness = -1
-  assign palette_darkest = '#000000'
+  assign palette_darkest = settings.color_palette.foreground
   assign palette_darkest_brightness = 256
 
   for palette_color in settings.color_palette

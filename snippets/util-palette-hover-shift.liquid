@@ -13,11 +13,21 @@
 {%- enddoc -%}
 
 {%- liquid
-  comment
-    Brand override: every hover/interaction state uses the lavender accent (#B8A9C9)
-    instead of a lightened/darkened shift of the source color. Callers derive hover
-    text contrast from the returned color's brightness, so text stays readable.
-    The original shift logic is in git history (before this change).
-  endcomment
-  echo '#B8A9C9'
+  assign alpha = color.alpha | default: 1
+  if alpha < 0.4
+    # Transparency too high to rely on color brightness change
+    assign new_alpha = alpha | plus: 0.15
+    echo color | color_modify: 'alpha', new_alpha
+  else
+    assign source_brightness = color | color_brightness
+    if source_brightness <= 40
+      echo color | color_lighten: 15
+    elsif source_brightness <= 128
+      echo color | color_lighten: 5
+    elsif source_brightness <= 190
+      echo color | color_darken: 10
+    else
+      echo color | color_darken: 5
+    endif
+  endif
 -%}
