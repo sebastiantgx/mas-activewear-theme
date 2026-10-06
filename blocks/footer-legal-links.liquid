@@ -1,0 +1,80 @@
+
+{% assign block_settings = block.settings %}
+{%- assign terms_url = shop.terms_of_service.url | default: '/policies/terms-of-service' -%}
+{%- assign privacy_url = shop.privacy_policy.url | default: '/policies/privacy-policy' -%}
+<div
+  class="
+    footer-utilities__group-legal
+    custom-typography
+    {% if block_settings.font_size != "" %}custom-font-size{% endif %}
+  "
+  style="
+    {% render 'typography-style', preset: 'custom', settings: block_settings %}
+    {% if block_settings.text_color != blank %}--color-utilities: {{ block_settings.text_color }};{% endif %}
+  "
+  {{ block.shopify_attributes }}
+>
+  <a href="{{ terms_url }}" class="footer-utilities__text">{{ block_settings.terms_label }}</a>
+  <span aria-hidden="true"> · </span>
+  <a href="{{ privacy_url }}" class="footer-utilities__text">{{ block_settings.privacy_label }}</a>
+</div>
+
+{% stylesheet %}
+  .footer-utilities__group-legal {
+    color: var(--color-utilities, var(--color-foreground-muted));
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Legal links",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "terms_label",
+      "label": "Terms label",
+      "default": "Términos y condiciones"
+    },
+    {
+      "type": "text",
+      "id": "privacy_label",
+      "label": "Privacy label",
+      "default": "Política de privacidad"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "0.625rem", "label": "10px" },
+        { "value": "0.75rem", "label": "12px" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "1rem", "label": "16px" },
+        { "value": "1.125rem", "label": "18px" }
+      ],
+      "default": "0.75rem"
+    },
+    {
+      "type": "select",
+      "id": "case",
+      "label": "t:settings.case",
+      "options": [
+        { "value": "none", "label": "t:options.default" },
+        { "value": "uppercase", "label": "t:options.uppercase" }
+      ],
+      "default": "none"
+    }
+  ]
+}
+{% endschema %}

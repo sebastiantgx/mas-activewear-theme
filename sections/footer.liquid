@@ -120,6 +120,14 @@
       grid-column: 1 / -1;
     }
   }
+
+  /* Three columns: size to content and spread edge to edge */
+  @media screen and (min-width: 750px) {
+    .footer-content[style*='--grid-columns: 3'] {
+      grid-template-columns: repeat(3, auto);
+      justify-content: space-between;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

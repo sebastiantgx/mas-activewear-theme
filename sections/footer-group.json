@@ -99,7 +99,7 @@
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
+            "horizontal_alignment_flex_direction_column": "flex-end",
             "vertical_alignment_flex_direction_column": "flex-start",
             "gap": 16,
             "width": "fill",
@@ -122,7 +122,7 @@
                 "text": "<h5>Envíos</h5>",
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "right",
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -147,7 +147,7 @@
                 "text": "<p>Envío gratis en Montevideo.</p>",
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "right",
                 "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -180,7 +180,7 @@
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
+            "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "flex-start",
             "gap": 16,
             "width": "fill",
@@ -210,43 +210,17 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "text_Ex1Top": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p><a href=\"#\">Volver arriba ↗</a></p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "menu_Ex1Mnu",
-            "text_Ex1Top"
+            "menu_Ex1Mnu"
           ]
         }
       },
       "block_order": [
         "group_Brand1",
-        "group_Ship1",
-        "group_Expl1"
+        "group_Expl1",
+        "group_Ship1"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -269,38 +243,30 @@
           },
           "blocks": {}
         },
-        "footer_policy_list_VCdnpa": {
-          "type": "footer-policy-list",
+        "footer_legal_links_Lg1Tm2": {
+          "type": "footer-legal-links",
           "settings": {
+            "terms_label": "Términos y condiciones",
+            "privacy_label": "Política de privacidad",
             "font_size": "0.75rem",
             "case": "none"
           },
           "blocks": {}
         },
-        "social_links_Ew63Kq": {
-          "type": "social-links",
+        "footer_back_to_top_Bt1Up2": {
+          "type": "footer-back-to-top",
           "settings": {
-            "facebook_url": "https://www.facebook.com/",
-            "instagram_url": "https://www.instagram.com/",
-            "youtube_url": "https://www.youtube.com/",
-            "tiktok_url": "https://www.tiktok.com/",
-            "twitter_url": "https://x.com/",
-            "threads_url": "",
-            "linkedin_url": "",
-            "bluesky_url": "",
-            "snapchat_url": "",
-            "pinterest_url": "",
-            "tumblr_url": "",
-            "vimeo_url": "",
-            "custom_url": ""
+            "label": "Volver arriba",
+            "font_size": "0.75rem",
+            "case": "none"
           },
           "blocks": {}
         }
       },
       "block_order": [
         "footer_copyright_jweRK8",
-        "footer_policy_list_VCdnpa",
-        "social_links_Ew63Kq"
+        "footer_legal_links_Lg1Tm2",
+        "footer_back_to_top_Bt1Up2"
       ],
       "name": "t:names.utilities",
       "settings": {
@@ -309,7 +275,7 @@
         "background_color": "#F1EFE3",
         "divider_thickness": 0,
         "padding-block-start": 20,
-        "padding-block-end": 48
+        "padding-block-end": 24
       }
     },
     "footer_news_Q7wLmZ": {

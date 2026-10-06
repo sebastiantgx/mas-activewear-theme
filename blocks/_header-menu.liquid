@@ -46,6 +46,7 @@
             role="list"
           >
             {% for link in block_settings.menu.links %}
+            {%- if template.name == 'index' and link.url == routes.root_url %}{% continue %}{% endif -%}
               <li>
                 <a
                   href="{{ link.url }}"
@@ -94,6 +95,7 @@
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
+            {%- if template.name == 'index' and link.url == routes.root_url %}{% continue %}{% endif -%}
         <li
           class="menu-list__list-item"
           on:blur="/deactivate"
