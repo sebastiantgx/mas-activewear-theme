@@ -25,7 +25,7 @@
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "space-between",
-            "gap": 96,
+            "gap": 0,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -56,6 +56,19 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "spacer_BrSp1": {
+              "type": "spacer",
+              "settings": {
+                "size": "pixel",
+                "percent_size": 100,
+                "pixel_size": 160,
+                "custom_mobile_size": true,
+                "size_mobile": "pixel",
+                "percent_size_mobile": 100,
+                "pixel_size_mobile": 64
               },
               "blocks": {}
             },
@@ -145,6 +158,7 @@
           },
           "block_order": [
             "logo_Br1Lgo",
+            "spacer_BrSp1",
             "group_BrTxt"
           ]
         },
@@ -260,7 +274,7 @@
         "section_width": "page-width",
         "gap": 40,
         "background_color": "#F1EFE3",
-        "padding-block-start": 48,
+        "padding-block-start": 96,
         "padding-block-end": 12
       }
     },
@@ -438,9 +452,9 @@
       "settings": {
         "section_width": "page-width",
         "gap": 20,
-        "background_color": "#EAE8DD",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 96,
+        "padding-block-end": 96
       }
     }
   },
