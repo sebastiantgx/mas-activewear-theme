@@ -97,26 +97,49 @@
       %}
       {% capture list_items %}
         {% for product in products limit: section.settings.max_products %}
-          <div class="resource-list__item">
-            {% content_for 'block',
-              type: '_product-card',
-              id: 'static-product-card',
-              closest.product: product,
-              product_view_context: 'recommendation'
+          {% liquid
+            assign has_color_option = false
+            if product != blank
+              for option in product.options_with_values
+                assign option_name = option.name | strip | downcase
+                if option_name == 'color' or option_name == 'colour'
+                  assign has_color_option = true
+                endif
+              endfor
+            endif
+          %}
+          {% if has_color_option %}
+            {% # One card per color, same rule as the collection grid: the media alt text names the color %}
+            {% render 'product-color-cards',
+              product: product,
+              section: section,
+              base_index: forloop.index0,
+              paginate_page: 1,
+              hide_sold_out: false,
+              product_view_context: 'recommendation',
+              layout: 'carousel'
             %}
-          </div>
-          {% unless forloop.last %}
+          {% else %}
             <!--@list/split-->
-          {% endunless %}
+            <div class="resource-list__item">
+              {% content_for 'block',
+                type: '_product-card',
+                id: 'static-product-card',
+                closest.product: product,
+                product_view_context: 'recommendation'
+              %}
+            </div>
+          {% endif %}
         {% endfor %}
       {% endcapture %}
 
       {% liquid
-        # Create an array from the list items to be used in the carousel
-        assign slide_content = list_items | strip
+        # Every item is preceded by the split marker, so drop the leading one before splitting.
+        # Per-color cards make the item count differ from the product count, so everything below follows the real count.
+        assign slide_content = list_items | strip | remove_first: '<!--@list/split-->'
         assign slides = slide_content | split: '<!--@list/split-->'
 
-        if products != blank and products.size > 0
+        if slides.size > 0 and slide_content != blank
           assign has_recommendations = 'true'
         else
           assign has_recommendations = 'false'
@@ -146,7 +169,7 @@
             {% render 'resource-list-carousel',
               ref: 'resourceListCarousel',
               slides: slides,
-              slide_count: recommendations.products.size,
+              slide_count: slides.size,
               settings: section.settings
             %}
         {% endcase %}
@@ -170,7 +193,7 @@
           {% render 'resource-list-carousel',
             ref: 'resourceListCarouselMobile',
             slides: slides,
-            slide_count: recommendations.products.size,
+            slide_count: slides.size,
             settings: section.settings
           %}
         </div>
