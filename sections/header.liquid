@@ -544,8 +544,8 @@
     }
   }
 
-  /* The logo is a JPG with a white background: knock the white out (alpha = 1 - luminance) so no box shows over the hero photo */
-  .header[transparent] .header-logo__image {
+  /* The logo is a JPG with a white background: knock the white out (alpha = 1 - luminance) so no box shows over whatever sits behind the logo */
+  .header .header-logo__image {
     filter: url('#header-logo-knockout');
   }
 
