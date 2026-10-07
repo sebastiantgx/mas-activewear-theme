@@ -1897,6 +1897,13 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
   .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2,
   .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2 > * {
     font-size: clamp(24px, 2.6vw, 48px);
+  }
+}
+
+/* One-line titles need a banner wide enough for them: under 850px the longer title forced its banner wider than the other one and the page overflowed by up to 12px, so there they wrap. */
+@media screen and (min-width: 850px) {
+  .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2,
+  .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2 > * {
     white-space: nowrap;
   }
 }
