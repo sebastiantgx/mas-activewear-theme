@@ -1,7 +1,14 @@
 
 
 {% liquid
+  # Shopify lists the store's collections alphabetically by title. The "first collection" setting pins one to the front.
   assign section_collections = collections
+  if section.settings.first_collection != blank
+    assign first_handle = section.settings.first_collection.handle
+    assign first_collection_list = collections | where: 'handle', first_handle
+    assign rest_collections = collections | reject: 'handle', first_handle
+    assign section_collections = first_collection_list | concat: rest_collections
+  endif
   assign max_items = 20
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
@@ -65,6 +72,15 @@
   %}
 </div>
 
+{% stylesheet %}
+  /* The columns setting is the wide-screen layout (6 collections in one row). Below 1200px six columns get too narrow, so tablets keep four; phones keep the mobile_columns setting. */
+  @media screen and (min-width: 750px) and (max-width: 1199px) {
+    .resource-list--grid[data-testid='collections-list-grid'] {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.collection_list",
@@ -105,6 +121,12 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "collection",
+      "id": "first_collection",
+      "label": "Collection shown first",
+      "info": "Pinned before the rest; the others stay in alphabetical order."
+    },
     {
       "type": "header",
       "content": "t:content.cards_layout"
