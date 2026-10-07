@@ -102,6 +102,22 @@
       text-align: end;
     }
   }
+
+  /* Touch: legal and back-to-top links get an invisible 44px-tall tap area centered on the text */
+  @media (pointer: coarse) {
+    a.footer-utilities__text {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        inset-block-start: 50%;
+        height: 44px;
+        transform: translateY(-50%);
+      }
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

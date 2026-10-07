@@ -261,6 +261,19 @@
     padding-inline: 0;
   }
 
+  /* Touch: the 34px close button keeps its look and gets an invisible 44x44px tap area */
+  @media (pointer: coarse) {
+    cart-drawer-component .theme-drawer__close-button {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+      }
+    }
+  }
+
   @media screen and (prefers-reduced-motion: no-preference) {
     html:active-view-transition-type(empty-cart-drawer) {
       .theme-drawer__close-button {

@@ -187,6 +187,16 @@
       justify-content: space-between;
     }
   }
+
+  /* Touch: menu links get a 44px-tall tap area. The nav clips vertically, so the area is the link's own box (no pseudo-element)
+     and the rows grow from 37px to 44px; the text itself keeps its size. */
+  @media (pointer: coarse) {
+    .footer-content .menu__item a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
