@@ -2115,3 +2115,11 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     padding-block-start: 112px !important;
   }
 }
+
+/* Product page on phones: a little more room around the description, above (towards the size picker and stock label) and below (towards the quantity and buy buttons).
+   Its container is a flex column with a 12px gap, so the 8px margin makes each gap 20px. */
+@media screen and (max-width: 749px) {
+  .product-details .short-description {
+    margin-block: 8px;
+  }
+}
