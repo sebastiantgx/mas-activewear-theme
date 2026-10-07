@@ -46,7 +46,19 @@ class StickyAddToCartComponent extends Component {
   #buyButtonsIntersectionObserver = null;
 
   /** @type {IntersectionObserver | null} */
-  #mainBottomObserver = null;
+  #endZoneObserver = null;
+
+  /** @type {Element | null} */
+  #buyButtonsBlock = null;
+
+  /** @type {Element | null} */
+  #endZoneStart = null;
+
+  /** @type {boolean | null} Whether the buy buttons are above the viewport (null until first measured) */
+  #buyButtonsAbove = null;
+
+  /** @type {boolean | null} Whether the end of the page is visible or already scrolled past (null until first measured) */
+  #inEndZone = null;
 
   /** @type {number | undefined} */
   #resetTimeout;
@@ -65,9 +77,6 @@ class StickyAddToCartComponent extends Component {
 
   /** @type {number} */
   #currentQuantity = 1;
-
-  /** @type {boolean} */
-  #hiddenByBottom = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -97,7 +106,7 @@ class StickyAddToCartComponent extends Component {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.#buyButtonsIntersectionObserver?.disconnect();
-    this.#mainBottomObserver?.disconnect();
+    this.#endZoneObserver?.disconnect();
     this.#abortController.abort();
     if (this.#animationTimeout) {
       clearTimeout(this.#animationTimeout);
@@ -105,7 +114,14 @@ class StickyAddToCartComponent extends Component {
   }
 
   /**
-   * Sets up the IntersectionObserver to watch the buy buttons visibility
+   * Sets up the observers that decide when the bar is visible.
+   *
+   * Visibility is derived from two flags, never from a transition:
+   *   - #buyButtonsAbove: the buy buttons have scrolled out of view through the top
+   *   - #inEndZone: the end of the page (newsletter + footer) is visible, or already scrolled past
+   * The bar shows only while the buy buttons are above and the end zone is not near, and both flags
+   * are re-read and the state recomputed in every observer callback. IntersectionObserver always sends
+   * an initial callback, so the state is right on load, with a restored scroll and when coming back.
    */
   #setupIntersectionObserver() {
     const productForm = this.#getProductForm();
@@ -114,59 +130,86 @@ class StickyAddToCartComponent extends Component {
     const buyButtonsBlock = productForm.closest('.buy-buttons-block');
     if (!buyButtonsBlock) return;
 
-    // In themes migrated from 2.0, the footer element doesn't exist
-    const footer = document.querySelector('footer') ?? document.querySelector('[class*="footer-group"]');
-    if (!footer) return;
+    // The newsletter is a footer-group section outside the <footer> element, so the end zone starts at
+    // whichever of the first footer-group section and the <footer> comes first in the document.
+    const endZoneStart = this.#getEndZoneStart();
+    if (!endZoneStart) return;
 
-    // Observer for buy buttons visibility
+    this.#buyButtonsBlock = buyButtonsBlock;
+    this.#endZoneStart = endZoneStart;
+
     this.#buyButtonsIntersectionObserver = new IntersectionObserver((entries) => {
-      const [entry] = entries;
+      const entry = entries[entries.length - 1];
       if (!entry) return;
-
-      // Only show sticky bar if buy buttons have been scrolled past (above viewport)
-      if (!entry.isIntersecting && !this.#isStuck) {
-        // Check if the element is above the viewport (scrolled past) or below (not yet reached)
-        const rect = entry.target.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top < 0) {
-          if (this.#isChatActive()) return;
-          this.#showStickyBar();
-        }
-        // If rect.top >= 0, element is below viewport - don't show sticky bar yet
-      } else if (entry.isIntersecting && this.#isStuck) {
-        this.#hiddenByBottom = false;
-        this.#hideStickyBar();
-      }
+      this.#buyButtonsAbove = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      this.#updateVisibility();
     });
 
-    // Observer for footer visibility - hides sticky bar at page bottom
-    this.#mainBottomObserver = new IntersectionObserver(
+    // The bottom margin is the bar's own height (padding and safe area included), so the bar hides
+    // before the end zone can slide under it.
+    const barHeight = this.refs.stickyBar.offsetHeight || 96;
+    this.#endZoneObserver = new IntersectionObserver(
       (entries) => {
-        const [entry] = entries;
+        const entry = entries[entries.length - 1];
         if (!entry) return;
-
-        if (entry.isIntersecting && this.#isStuck) {
-          this.#hiddenByBottom = true;
-          this.#hideStickyBar();
-        } else if (!entry.isIntersecting && this.#hiddenByBottom) {
-          // Footer out of view - check if we should show sticky bar again
-          const rect = buyButtonsBlock.getBoundingClientRect();
-          // Only show if buy buttons are above the viewport (scrolled past)
-          if (rect.bottom < 0 || rect.top < 0) {
-            this.#hiddenByBottom = false;
-            if (!this.#isChatActive()) {
-              this.#showStickyBar();
-            }
-          }
-        }
+        this.#inEndZone = this.#isInEndZone(entry.boundingClientRect.top, barHeight);
+        this.#updateVisibility();
       },
-      {
-        rootMargin: '200px 0px 0px 0px',
-      }
+      { rootMargin: `0px 0px ${barHeight}px 0px` }
     );
 
     this.#buyButtonsIntersectionObserver.observe(buyButtonsBlock);
-    this.#mainBottomObserver.observe(footer);
+    this.#endZoneObserver.observe(endZoneStart);
     this.#targetAddToCartButton = productForm.querySelector('[ref="addToCartButton"]');
+
+    // Back/forward cache restores the page without new observer callbacks: measure again.
+    window.addEventListener('pageshow', this.#measure, { signal: this.#abortController.signal });
+  }
+
+  /**
+   * The end zone is visible (within the bar's height below the viewport) or already scrolled past
+   * @param {number} top - Top edge of the end zone's first element, relative to the viewport
+   * @param {number} barHeight - Height of the bar
+   * @returns {boolean}
+   */
+  #isInEndZone(top, barHeight) {
+    return top < window.innerHeight + barHeight;
+  }
+
+  /**
+   * Re-reads both flags from the live layout. Used when no observer callback is guaranteed (page restore).
+   */
+  #measure = () => {
+    if (!this.#buyButtonsBlock || !this.#endZoneStart) return;
+    const buy = this.#buyButtonsBlock.getBoundingClientRect();
+    const inView = buy.bottom > 0 && buy.top < window.innerHeight;
+    this.#buyButtonsAbove = !inView && buy.top < 0;
+    this.#inEndZone = this.#isInEndZone(
+      this.#endZoneStart.getBoundingClientRect().top,
+      this.refs.stickyBar.offsetHeight || 96
+    );
+    this.#updateVisibility();
+  };
+
+  /**
+   * Shows or hides the bar from the two flags. Waits until both observers have reported once.
+   */
+  #updateVisibility() {
+    if (this.#buyButtonsAbove === null || this.#inEndZone === null) return;
+    const shouldShow = this.#buyButtonsAbove && !this.#inEndZone && !this.#isChatActive();
+    if (shouldShow && !this.#isStuck) this.#showStickyBar();
+    else if (!shouldShow && this.#isStuck) this.#hideStickyBar();
+  }
+
+  /**
+   * First element of the end of the page, in document order
+   * @returns {Element | null}
+   */
+  #getEndZoneStart() {
+    const candidates = [document.querySelector('.shopify-section-group-footer-group'), document.querySelector('footer')];
+    const [first, second] = candidates.filter(Boolean);
+    if (!first || !second) return first ?? null;
+    return first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING ? first : second;
   }
 
   // Public action handlers
