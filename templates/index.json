@@ -584,8 +584,8 @@
             "button_DMeCdK": {
               "type": "button",
               "settings": {
-                "label": "Ver artículos",
-                "link": "shopify://collections/all",
+                "label": "Ver colecciones",
+                "link": "shopify://collections",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "#FFFFFF00",
