@@ -386,11 +386,10 @@
     }
   }
 
-  /* Touch: each swatch gets an invisible 44x44px tap area around the unchanged dot. The gap grows so neighbouring areas
-     (dot + gap = 44px) never overlap, and the row gets room below so the lower part of the area is not cut by the card. */
+  /* Touch: each swatch keeps its original spacing and gets an invisible tap area 44px tall and as wide as the dot plus its gap,
+     so neighbouring areas meet without overlapping. The row gets room below so the lower part of the area is not cut by the card. */
   @media (pointer: coarse) {
     .color-card__swatches {
-      gap: 28px;
       padding-block-end: 14px;
     }
 
@@ -401,16 +400,17 @@
         content: '';
         position: absolute;
         inset-block-start: -14px;
-        inset-inline-start: -3px;
-        width: 44px;
+        inset-inline-start: -4px;
+        width: calc(100% + 8px);
         height: 44px;
       }
     }
   }
 
   @media (pointer: coarse) and (min-width: 750px) {
-    .color-card__swatches {
-      gap: 26px;
+    .color-card__swatch::after {
+      inset-inline-start: -5px;
+      width: calc(100% + 10px);
     }
   }
 {% endstylesheet %}

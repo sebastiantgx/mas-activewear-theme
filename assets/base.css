@@ -1952,3 +1952,62 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     padding-block-start: 8px;
   }
 }
+
+/* Hero button arrow: drawn as an icon instead of a text arrow, which phones render as a color emoji (Apple's emoji font replaces the arrow glyph). */
+.hero .button-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.hero .button-custom::after {
+  content: '';
+  flex: none;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='square'%3E%3Cpath d='M6 18 18 6M8 6h10v10'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media screen and (max-width: 749px) {
+  /* Hero on phones: the button fills the width of the content, without the arrow (tablet and desktop keep the right-aligned button with the arrow). */
+  .hero .button-custom {
+    align-self: stretch;
+    width: 100% !important;
+    min-height: 54px;
+    font-size: 1.0625rem; /* scaled with the height: 54 / 44 x the 14px base is about 17px */
+  }
+
+  .hero .button-custom::after {
+    display: none;
+  }
+
+  /* Hero on phones: darker overlay (solid black at the corner, a taller and longer fade, desktop keeps the 70% set in the template) and a smaller title (52px, was 56px) */
+  .hero .overlay--corner {
+    background: radial-gradient(ellipse 120% 70% at 0 100%, rgb(12 12 12 / 1) 0%, rgb(12 12 12 / 0.85) 40%, rgb(12 12 12 / 0) 100%);
+  }
+
+  .hero-wrapper .hero .text-block.h2,
+  .hero-wrapper .hero .text-block.h2 > * {
+    font-size: 3.25rem;
+  }
+
+  /* Subtitle: 16px instead of the 20px set in the template, so the copy covers less of the photo. The size is set inline, hence !important. */
+  .hero-wrapper .hero .text-block:not(.h2),
+  .hero-wrapper .hero .text-block:not(.h2) > * {
+    font-size: 1rem !important;
+  }
+
+  /* Fill the whole screen: on phones the browser's bottom toolbar floats over the page, and the section's own unit (svh) stops above it,
+     leaving the next section visible under the toolbar. lvh is the full height, so the hero reaches the bottom edge, and the content
+     is lifted by the toolbar height (lvh - svh) so the button is not hidden behind it. Both are equal on desktop, so nothing changes there. */
+  .hero-wrapper:first-child .hero {
+    min-height: calc(100lvh - var(--hero-height-offset, 0px));
+  }
+
+  /* The container's padding is set inline (--padding-block-end and padding-block-end), hence !important. The content wrapper has a fixed height, so a margin on it would not move the button. */
+  .hero-wrapper:first-child .hero__container {
+    padding-block-end: calc(var(--padding-block-end, 24px) + 100lvh - 100svh) !important;
+  }
+}

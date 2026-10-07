@@ -96,7 +96,8 @@
   <div
     style="
       grid-column: var(--full-width);
-      --product-grid-gap-mobile: {{ section.settings.columns_gap_vertical | at_most: 12 }}px {{ section.settings.columns_gap_horizontal | at_most: 12 }}px;
+      {%- comment -%} Phones: row gap capped at 32px (the theme capped it at 12px), column gap still 12px {%- endcomment %}
+      --product-grid-gap-mobile: {{ section.settings.columns_gap_vertical | at_most: 32 }}px {{ section.settings.columns_gap_horizontal | at_most: 12 }}px;
       --product-grid-gap-desktop: {{ section.settings.columns_gap_vertical }}px {{ section.settings.columns_gap_horizontal }}px;
       container-type: inline-size;
       container-name: product-grid;
