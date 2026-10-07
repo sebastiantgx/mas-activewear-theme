@@ -328,4 +328,11 @@
       --resource-card-secondary-image-opacity: 1;
     }
   }
+
+  /* No hover on touch, so the second image would never be reachable: show it instead of the first */
+  @media (hover: none) {
+    .resource-card:has(.resource-card__image--secondary) {
+      --resource-card-secondary-image-opacity: 1;
+    }
+  }
 {% endstylesheet %}

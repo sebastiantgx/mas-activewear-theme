@@ -84,5 +84,14 @@
       --button-border-color: rgb({{ settings.color_palette.foreground.rgb }});
       {%- endif %}
     }
+
+    /* Touch: :hover sticks after a tap, so the button would stay filled until the page changes. Keep the resting look. */
+    @media (hover: none) {
+      {{ image_hover_selector }} {
+        --button-background-color: rgb({{ effective_background_color.rgba }});
+        --button-color: rgb({{ effective_text_color.rgba }});
+        --button-border-color: rgb({{ effective_border_color.rgba }});
+      }
+    }
   {% endstyle %}
 {% endif %}

@@ -833,14 +833,23 @@
     }
   }
 
-  .facets__filters-wrapper:hover .facets__summary,
   .facets__filters-wrapper:has(.facets__panel[open]) .facets__summary {
     opacity: var(--facets-hover-opacity);
   }
 
-  .facets__filters-wrapper .facets__summary:hover,
   .facets__filters-wrapper .facets__panel[open] .facets__summary {
     opacity: 1;
+  }
+
+  /* Hover dimming only where hover exists: on touch :hover sticks after a tap and leaves the other filters dimmed */
+  @media (hover: hover) {
+    .facets__filters-wrapper:hover .facets__summary {
+      opacity: var(--facets-hover-opacity);
+    }
+
+    .facets__filters-wrapper .facets__summary:hover {
+      opacity: 1;
+    }
   }
 
   .facets--horizontal .facets__summary {
