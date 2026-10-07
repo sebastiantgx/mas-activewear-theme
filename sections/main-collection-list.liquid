@@ -80,6 +80,27 @@
     }
   }
 
+  /* Phones: 32px between rows (the theme caps phone gaps at 12px). The column gap stays at 12px. */
+  @media screen and (max-width: 749px) {
+    .resource-list--grid[data-testid='collections-list-grid'] {
+      --resource-list-row-gap: 32px;
+    }
+  }
+
+  /* Phones: taller cards. The image frame goes from 2:3 (the photos' own ratio) to 3:5, cropping a little off the sides. */
+  @media screen and (max-width: 749px) {
+    .resource-list--grid[data-testid='collections-list-grid'] .collection-card__image {
+      aspect-ratio: 3 / 5 !important;
+    }
+
+    .resource-list--grid[data-testid='collections-list-grid'] .collection-card__image .resource-image__image {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      object-fit: cover;
+    }
+  }
+
   /* Keep the page title visible under the sticky header while the collections scroll */
   .section-resource-list:has([data-testid='collections-list-grid']) > .section-resource-list__content {
     position: sticky;

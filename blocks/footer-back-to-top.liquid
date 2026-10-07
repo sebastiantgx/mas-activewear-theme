@@ -16,15 +16,17 @@
 </div>
 
 <script>
-  /* The page scrolls inside .page-wrapper, so a bare "#" link does not reach the top */
+  /* A bare "#" link does not reach the top. On desktop the page scrolls inside .page-wrapper, on phones it scrolls the window
+     (the wrapper exists in both cases but does not scroll on phones), so both are sent to the top. */
   if (!window.__backToTopBound) {
     window.__backToTopBound = true;
     document.addEventListener('click', (event) => {
       const link = event.target.closest('[data-back-to-top]');
       if (!link) return;
       event.preventDefault();
-      const scroller = document.querySelector('.page-wrapper') || window;
-      scroller.scrollTo({ top: 0, behavior: 'smooth' });
+      const wrapper = document.querySelector('.page-wrapper');
+      if (wrapper && wrapper.scrollTop > 0) wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 </script>

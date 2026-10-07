@@ -2090,3 +2090,20 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     padding-inline: 0;
   }
 }
+
+/* Footer on phones: more room between its stacked blocks (brand, Explorar, shipping text): 56px instead of 40px.
+   The gap is set inline from the section's gap setting, hence !important. */
+@media screen and (max-width: 749px) {
+  .shopify-section[id$='__footer_m9NzUG'] .footer-content {
+    gap: 56px !important;
+  }
+}
+
+/* Footer on phones: above the sticky top bar (maximum z-index), so it is never hidden behind it while it scrolls past.
+   The newsletter section is not part of the footer and keeps the normal stacking, so it scrolls under the top bar like any other section.
+   The footer sections are already position: relative, which z-index needs. */
+@media screen and (max-width: 749px) {
+  .shopify-section-group-footer-group:not([id$='__footer_news_Q7wLmZ']) {
+    z-index: 2147483647;
+  }
+}
