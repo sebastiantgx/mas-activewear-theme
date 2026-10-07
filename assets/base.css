@@ -2107,3 +2107,11 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     z-index: 2147483647;
   }
 }
+
+/* Product page on phones: more room between the buy buttons and "También te puede interesar" (padding above the section 68px -> 112px, so the
+   space from the last button grows from 88px to 132px). The section padding is set inline, hence !important. */
+@media screen and (max-width: 749px) {
+  .shopify-section[id$='__product_recommendations_qggXJq'] .section {
+    padding-block-start: 112px !important;
+  }
+}
