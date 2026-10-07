@@ -2011,3 +2011,16 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     padding-block-end: calc(var(--padding-block-end, 24px) + 100lvh - 100svh) !important;
   }
 }
+
+/* Tablet (750px to 989px): the desktop layout is active but narrow.
+   - Product grid: 3 columns instead of 2 (cards were 336px wide at 768px). From 990px the theme's own auto-fill gives 3 or more.
+   - Product page: the gallery is set to extend to the screen edge and sat flush against the left edge while everything else keeps the 40px page margin. */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .main-collection-grid .product-grid.product-grid--grid {
+    --product-grid-columns-desktop: repeat(3, 1fr) !important;
+  }
+
+  .product-information__grid.product-information--media-left:has(.media-gallery--extend) .product-information__media {
+    padding-inline-start: var(--page-margin, 40px);
+  }
+}
