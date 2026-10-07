@@ -122,6 +122,22 @@
     cursor: pointer;
   }
 
+  /* Touch: the link keeps its size and gets an invisible tap area 44px tall. It reaches up to the swatches (14px above)
+     and only 8px down, because the size buttons start 8px below it. */
+  @media (pointer: coarse) {
+    .size-guide__trigger {
+      position: relative;
+      overflow: visible; /* .button clips its overflow, which would cut the tap area */
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset-block: -14px -8px;
+        inset-inline: 0;
+      }
+    }
+  }
+
   .size-guide__dialog {
     box-shadow: var(--shadow-popover);
     border: var(--style-border-popover);

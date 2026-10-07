@@ -55,6 +55,21 @@
     text-underline-offset: 0.25em;
   }
 
+  /* Touch: "Leer más" keeps its size and gets an invisible tap area 44px tall (14px above and below the 16px line).
+     The quantity selector starts 15px below, so the area stops just short of it. */
+  @media (pointer: coarse) {
+    .short-description__more {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset-block: -14px;
+        inset-inline: 0;
+      }
+    }
+  }
+
   /* Expanding is one-way: once open, the full text replaces the summary */
   .short-description__details[open] > .short-description__summary {
     display: none;
