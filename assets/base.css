@@ -2045,3 +2045,23 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     padding-inline-start: var(--page-margin, 40px);
   }
 }
+
+/* Product page on phones: the gallery is limited to a 4:5 frame (the slides followed the tallest photo, 2:3, and pushed the title, price and
+   swatches below the fold). Photos fill the frame with object-fit: cover and keep their own object-position. Zoom dialog excluded. */
+@media screen and (max-width: 749px) {
+  media-gallery:not(.dialog-zoomed-gallery *) slideshow-slide.product-media-container {
+    aspect-ratio: 4 / 5;
+  }
+
+  media-gallery:not(.dialog-zoomed-gallery *) slideshow-slide.product-media-container .product-media {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  media-gallery:not(.dialog-zoomed-gallery *) slideshow-slide.product-media-container .product-media__image {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+}
