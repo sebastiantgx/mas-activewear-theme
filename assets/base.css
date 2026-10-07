@@ -2022,14 +2022,22 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
 
   /* Fill the whole screen: on phones the browser's bottom toolbar floats over the page, and the section's own unit (svh) stops above it,
      leaving the next section visible under the toolbar. lvh is the full height, so the hero reaches the bottom edge, and the content
-     is lifted by the toolbar height (lvh - svh) so the button is not hidden behind it. Both are equal on desktop, so nothing changes there. */
+     is lifted by the toolbar height (lvh - svh) so the button is not hidden behind it. Browsers whose toolbar does not float over the page (Chrome) report little or no difference, so there is a 16px minimum. Both are equal on desktop, so nothing changes there. */
   .hero-wrapper:first-child .hero {
     min-height: calc(100lvh - var(--hero-height-offset, 0px));
   }
 
   /* The container's padding is set inline (--padding-block-end and padding-block-end), hence !important. The content wrapper has a fixed height, so a margin on it would not move the button. */
   .hero-wrapper:first-child .hero__container {
-    padding-block-end: calc(var(--padding-block-end, 24px) + 100lvh - 100svh) !important;
+    padding-block-end: calc(var(--padding-block-end, 24px) + max(100lvh - 100svh, 16px, env(safe-area-inset-bottom, 0px))) !important;
+  }
+
+  /* Not iOS (Chrome on Android): the address bar is on top and collapses, so lvh - svh already lifted the button to 24px above the visible bottom
+     edge, which looked too close. That difference was larger than the 16px minimum, so the minimum changed nothing there. 24px more for these browsers. */
+  @supports not (-webkit-touch-callout: none) {
+    .hero-wrapper:first-child .hero__container {
+      padding-block-end: calc(var(--padding-block-end, 24px) + (100lvh - 100svh) + 24px) !important;
+    }
   }
 }
 
