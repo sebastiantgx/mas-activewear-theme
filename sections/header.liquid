@@ -338,8 +338,17 @@
 </script>
 
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
-  <filter id="header-logo-knockout" x="0.03" y="0.03" width="0.94" height="0.94" color-interpolation-filters="sRGB">
+  {% comment %}
+    Knocks the white background out of the logo JPG (brightness becomes transparency: white -> clear, black -> solid).
+    The image is put over a white flood first: outside the picture the filter area is transparent black, which the matrix
+    would turn into solid black. Chrome clipped that away with a smaller filter region, Safari ignored the region and showed
+    a thin black line along the top and left edges of the logo.
+  {% endcomment %}
+  <filter id="header-logo-knockout" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+    <feFlood flood-color="#ffffff" result="white" />
+    <feComposite in="SourceGraphic" in2="white" operator="over" result="onWhite" />
     <feColorMatrix
+      in="onWhite"
       type="matrix"
       values="0 0 0 0 0
               0 0 0 0 0
