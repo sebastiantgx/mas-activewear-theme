@@ -129,6 +129,35 @@
   </results-list>
 </collection-component>
 
+{%- liquid
+  # The heading section (title and description) is the one right before this section in templates/collection.json.
+  # Keep this equal to that section's padding-block-start; the sections object is not readable from here.
+  assign heading_top_padding = 48
+-%}
+{% style %}
+  /* Keep the collection heading section visible under the sticky header. Its top padding slides under the header
+     (scaled like the theme's spacing-style: --spacing-scale-md under 990px, --spacing-scale-default from 990px).
+     While pinned the block fits its content with the same space above and below (--pin-padding: 16px, 24px on desktop):
+     the heading section's own padding-block-end is 16px, wrapper padding tops it up, and the rest of the original
+     48px (scaled) bottom space is margin outside the pinned box, so the layout at rest is unchanged. */
+  .content-for-layout > .shopify-section:not(.header-section):has(+ .shopify-section collection-component) {
+    --pin-padding: 16px;
+    --heading-top-padding: max(20px, round(nearest, calc(var(--spacing-scale-md) * {{ heading_top_padding }}px), 4px));
+
+    position: sticky;
+    top: calc(var(--header-height, 0px) - 1px - var(--heading-top-padding) + var(--pin-padding));
+    z-index: var(--layer-sticky);
+    background-color: var(--color-background);
+    padding-block-end: calc(var(--pin-padding) - 16px);
+    margin-block-end: calc(var(--heading-top-padding) - var(--pin-padding));
+
+    @media screen and (min-width: 990px) {
+      --pin-padding: 24px;
+      --heading-top-padding: max(20px, round(nearest, calc(var(--spacing-scale-default) * {{ heading_top_padding }}px), 4px));
+    }
+  }
+{% endstyle %}
+
 {% schema %}
 {
   "name": "t:names.collection_container",

@@ -19,7 +19,7 @@
             "text": "<h1>{{ closest.collection.title }}</h1>",
             "width": "fit-content",
             "max_width": "normal",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h2",
             "font": "var(--font-primary--family)",
             "font_size": "",
@@ -44,7 +44,7 @@
             "text": "{{ closest.collection.description }}",
             "width": "fit-content",
             "max_width": "normal",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "rte",
             "font": "var(--font-primary--family)",
             "font_size": "",
@@ -74,7 +74,7 @@
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
         "section_width": "page-width",
@@ -93,7 +93,7 @@
         "border_opacity": 100,
         "border_radius": 0,
         "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-end": 16
       }
     },
     "main": {

@@ -79,6 +79,30 @@
       grid-template-columns: repeat(4, 1fr);
     }
   }
+
+  /* Keep the page title visible under the sticky header while the collections scroll */
+  .section-resource-list:has([data-testid='collections-list-grid']) > .section-resource-list__content {
+    position: sticky;
+    /* --header-height includes the header's 1px bottom stroke, so overlap it by 1px to leave no gap for the grid to show through */
+    top: calc(var(--header-height, 0px) - 1px);
+    z-index: var(--layer-sticky);
+    background-color: var(--color-background);
+
+    /* While pinned the block fits its content with the same space above and below the title (--pin-padding: 16px, 24px on desktop).
+       The space that used to sit under the title (group padding-block-end 48px scaled, plus the text's 16px) stays as margin
+       outside the pinned box, and the padding is cancelled with negative margin at the top, so the layout at rest is unchanged. */
+    --pin-padding: 16px;
+    --title-bottom-space: max(20px, round(nearest, calc(var(--spacing-scale-md) * 48px), 4px));
+
+    padding-block: var(--pin-padding);
+    margin-block-start: calc(var(--pin-padding) * -1);
+    margin-block-end: calc(var(--title-bottom-space) + 16px - var(--pin-padding));
+
+    @media screen and (min-width: 990px) {
+      --pin-padding: 24px;
+      --title-bottom-space: max(20px, round(nearest, calc(var(--spacing-scale-default) * 48px), 4px));
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
