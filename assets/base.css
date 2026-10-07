@@ -1862,3 +1862,35 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/* Home promo banners: the padding scales with the viewport instead of staying fixed: bottom about 40px at 1440px (28px minimum, 64px maximum),
+   top and sides about 96px at 1440px (68px / 28px minimum, 128px maximum), which keeps the text block centered and narrow.
+   The group sets its padding through these custom properties inline, so they are overridden here.
+   Only the two banners are targeted, not the text stack nested inside each one. */
+.shopify-section[id$='__section_Promos1'] .group-block:not(.group-block-content > .group-block) {
+  --padding-block-start: clamp(68px, 6.67vw, 128px) !important;
+  --padding-block-end: clamp(28px, 2.8vw, 64px) !important;
+  --padding-inline-start: clamp(28px, 6.67vw, 128px) !important;
+  --padding-inline-end: clamp(28px, 6.67vw, 128px) !important;
+}
+
+/* Home promo titles: sized with the viewport from tablet up so they stay on one line inside the padded banner; phones keep the theme size for now. */
+@media screen and (min-width: 750px) {
+  .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2,
+  .shopify-section[id$='__section_Promos1'] .group-block-content > .group-block .text-block.h2 > * {
+    font-size: clamp(24px, 2.6vw, 48px);
+    white-space: nowrap;
+  }
+}
+
+/* Home promo banners: the overlay darkens on hover (16% at rest -> 48%) so the white copy reads better. Mouse devices only. */
+.shopify-section[id$='__section_Promos1'] .group-block:not(.group-block-content > .group-block) > .group-block__media-wrapper .overlay {
+  transition: background-color var(--animation-speed, 0.25s) var(--animation-easing, ease-out);
+}
+
+@media (hover: hover) {
+  .shopify-section[id$='__section_Promos1'] .group-block:not(.group-block-content > .group-block):hover > .group-block__media-wrapper .overlay {
+    background-color: rgb(12 12 12 / 0.48);
+  }
+}
+

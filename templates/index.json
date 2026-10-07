@@ -470,7 +470,7 @@
             "background_image": "shopify://shop_images/0C5A9593.jpg",
             "background_image_position": "cover",
             "toggle_overlay": true,
-            "overlay_color": "#0C0C0C40",
+            "overlay_color": "#0C0C0C29",
             "overlay_style": "solid",
             "gradient_direction": "to top",
             "border": "none",
@@ -486,43 +486,100 @@
             "padding-inline-end": 40
           },
           "blocks": {
-            "spacer_cPE8yY": {
-              "type": "spacer",
+            "group_PrStk1": {
+              "type": "group",
+              "name": "Promo text",
               "settings": {
-                "size": "pixel",
-                "percent_size": 100,
-                "pixel_size": 16,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
-                "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
-              },
-              "blocks": {}
-            },
-            "text_8qr3Gy": {
-              "type": "text",
-              "settings": {
-                "text": "<h3>Hecho para moverte.</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h2",
-                "font": "var(--font-heading--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "text_color": "#FFFFFF"
+                "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "text_8qr3Gy": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Hecho para moverte.</h3>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "h2",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "text_color": "#FFFFFF"
+                  },
+                  "blocks": {}
+                },
+                "text_PrL1Ab": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<p>Descubre nuestra variedad de calzas, tops y shorts pensados para entrenar.</p>",
+                    "width": "fit-content",
+                    "max_width": "narrow",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "text_color": "#FFFFFF"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_8qr3Gy",
+                "text_PrL1Ab"
+              ]
             },
             "button_DMeCdK": {
               "type": "button",
@@ -540,38 +597,10 @@
                 "custom_width_mobile": 100
               },
               "blocks": {}
-            },
-            "text_PrL1Ab": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Descubre nuestra variedad de calzas, tops y shorts pensados para entrenar.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "1.125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "text_color": "#FFFFFF"
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "spacer_cPE8yY",
-            "text_8qr3Gy",
-            "text_PrL1Ab",
+            "group_PrStk1",
             "button_DMeCdK"
           ]
         },
@@ -598,7 +627,7 @@
             "background_image": "shopify://shop_images/SHOOTING_MAS_13322.jpg",
             "background_image_position": "cover",
             "toggle_overlay": true,
-            "overlay_color": "#0C0C0C40",
+            "overlay_color": "#0C0C0C29",
             "overlay_style": "solid",
             "gradient_direction": "to top",
             "border": "none",
@@ -614,43 +643,100 @@
             "padding-inline-end": 40
           },
           "blocks": {
-            "spacer_h4JbcK": {
-              "type": "spacer",
+            "group_PrStk2": {
+              "type": "group",
+              "name": "Promo text",
               "settings": {
-                "size": "pixel",
-                "percent_size": 100,
-                "pixel_size": 16,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
-                "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
-              },
-              "blocks": {}
-            },
-            "text_tEBMVh": {
-              "type": "text",
-              "settings": {
-                "text": "<h3>Comodidad en cada paso.</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h2",
-                "font": "var(--font-heading--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "text_color": "#FFFFFF"
+                "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "text_tEBMVh": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Comodidad en cada paso.</h3>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "h2",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "text_color": "#FFFFFF"
+                  },
+                  "blocks": {}
+                },
+                "text_PrR1Cd": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<p>Prendas que se adaptan a tu cuerpo y acompañan tu ritmo.</p>",
+                    "width": "fit-content",
+                    "max_width": "narrow",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0,
+                    "text_color": "#FFFFFF"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_tEBMVh",
+                "text_PrR1Cd"
+              ]
             },
             "button_krfQ7U": {
               "type": "button",
@@ -668,38 +754,10 @@
                 "custom_width_mobile": 100
               },
               "blocks": {}
-            },
-            "text_PrR1Cd": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Prendas que se adaptan a tu cuerpo y acompañan tu ritmo.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "custom",
-                "font": "var(--font-body--family)",
-                "font_size": "1.125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
-                "text_color": "#FFFFFF"
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "spacer_h4JbcK",
-            "text_tEBMVh",
-            "text_PrR1Cd",
+            "group_PrStk2",
             "button_krfQ7U"
           ]
         }
