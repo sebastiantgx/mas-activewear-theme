@@ -1920,3 +1920,35 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     min-height: 640px;
   }
 }
+
+/* Vertical spacing on phones: sections that sat under 48px now keep 48-64px, on the 4px grid.
+   The section padding is set inline (both --padding-block-* and padding-block-*), hence !important. */
+@media screen and (max-width: 749px) {
+  /* Subfooter: 48px above and below its text. With the 12px under the main footer that is about 63px between them. */
+  .shopify-section[id$='__footer_utilities_jLGE8U'] .utilities {
+    padding-block-start: 48px !important;
+    padding-block-end: 48px !important;
+  }
+
+  /* /collections: 48px above the title and below the grid (was 32px) */
+  .shopify-section[id$='__collection_list_Wfgh3m'] .section {
+    padding-block-start: 48px !important;
+    padding-block-end: 48px !important;
+  }
+
+  /* Cart "También te puede interesar": same padding as the same section on the home (96px scaled to 68px) */
+  .shopify-section[id$='__product_list_NNFgcy'] .section {
+    padding-block-start: 68px !important;
+    padding-block-end: 68px !important;
+  }
+
+  /* Contact: 48px between the title and the form (was 24px). The 60px under the form is already in range. */
+  .shopify-section[id$='__form'] .custom-section-content > .spacing-style {
+    padding-block-start: 48px !important;
+  }
+
+  /* Collection: 8px more between the title and the filter bar (about 43px -> 51px). Padding on the products section, so the pinned title is unchanged. */
+  .shopify-section:has(> collection-component) {
+    padding-block-start: 8px;
+  }
+}
