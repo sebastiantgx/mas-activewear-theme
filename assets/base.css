@@ -1874,15 +1874,20 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
   --padding-inline-end: clamp(28px, 6.67vw, 128px) !important;
 }
 
-/* Home promo banners on phones: they stack, and used to be only as tall as their text (about 300px). Each now fills 60% of the screen height, never under 640px,
+/* Home promo banners on phones: they stack, and used to be only as tall as their text (about 300px). Each now fills 60% of the screen height, never under 720px,
    with 4px between them and 72px below the content so the button sits higher. The gap is set inline by the section, hence !important. */
 @media screen and (max-width: 749px) {
   .shopify-section[id$='__section_Promos1'] .custom-section-content > .layout-panel-flex {
     gap: 4px !important;
   }
 
+  /* Overlay from 16% to 24% on phones only (the 16% set in the template stays on tablet and desktop) */
+  .shopify-section[id$='__section_Promos1'] .group-block:not(.group-block-content > .group-block) > .group-block__media-wrapper .overlay {
+    background-color: rgb(12 12 12 / 0.24);
+  }
+
   .shopify-section[id$='__section_Promos1'] .group-block:not(.group-block-content > .group-block) {
-    min-height: max(60svh, 640px);
+    min-height: max(60svh, 720px);
     --padding-block-end: 72px !important;
   }
 }
@@ -1918,6 +1923,15 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
 
   .shopify-section:is([id$='__collection_list_aLcVMx'], [id$='__product_list_GyJ7Xb']) .section-resource-list {
     min-height: 640px;
+  }
+
+  /* The collections carousel is taller still: cards at 88% of the width (the next card still peeks) and a 704px section */
+  .shopify-section[id$='__collection_list_aLcVMx'] .resource-list__carousel .resource-list__slide {
+    --slide-width: 88cqw !important;
+  }
+
+  .shopify-section[id$='__collection_list_aLcVMx'] .section-resource-list {
+    min-height: 704px;
   }
 }
 
