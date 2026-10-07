@@ -2065,3 +2065,20 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     object-fit: cover;
   }
 }
+
+/* Header on phones: the menu glyph is 14px wide and sits flush with the page margin, so the search icon (centered in its own 44px column)
+   ended up far from it compared with the account and cart icons. The gaps are compared between the drawn strokes (the SVG boxes have different built-in margins): 28.5px on the right, so search moves 17px toward the menu.
+   Only the search icon moves; the menu summary is just 14px wide, so the two tap areas do not overlap. */
+@media screen and (max-width: 749px) {
+  header-component .search-action {
+    position: relative;
+    inset-inline-start: -17px;
+  }
+
+  /* The pin to the page margin only took effect with a touch pointer: with a mouse the drawer's own 16px padding won and the menu glyph sat 16px
+     further in, which left the search icon too close to it. Pin it in both cases so the layout is the same. */
+  header-component .header__icon--menu.header__icon--summary {
+    justify-content: flex-start;
+    padding-inline: 0;
+  }
+}
