@@ -16,6 +16,10 @@
 
   Every card is preceded by the <!--@card/split--> marker so interleave-color-cards can reorder them.
 
+  Each swatch also carries data-sw-* attributes (image, title, price, variant, stock state) so assets/color-card-swatches.js
+  can preview or select another color of the card without a request. Those attributes are built once per product, outside the
+  card loop; each card only marks which swatch is its own.
+
   Products without a Color option are not handled here; the caller renders its regular card.
 
   @param {object} product - The product
@@ -62,6 +66,86 @@
     assign image_sizes = sizes_attribute | strip
   endif
 -%}
+
+{%- comment -%}
+  Swatch markup of the product, built once. %%CLS%% and %%CUR%% are filled in per card for the swatch of that card's color.
+  Only colors that get a card (a media whose alt names the color) are offered.
+{%- endcomment -%}
+{%- assign sw_names_raw = '' -%}
+{%- capture sw_templates_raw -%}
+  {%- for swatch_color in color_values -%}
+    {%- liquid
+      assign sw_variant = null
+      assign sw_available = null
+      assign sw_min_price = null
+      for sw_v in product.variants
+        if sw_v.options[color_index] == swatch_color
+          if sw_variant == null
+            assign sw_variant = sw_v
+          endif
+          if sw_v.available and sw_available == null
+            assign sw_available = sw_v
+          endif
+          if sw_min_price == null or sw_v.price < sw_min_price
+            assign sw_min_price = sw_v.price
+          endif
+        endif
+      endfor
+      assign sw_variant = sw_available | default: sw_variant
+
+      assign sw_key = swatch_color | strip | downcase
+      assign sw_media = null
+      for sw_m in product.media
+        assign sw_alt = sw_m.alt | strip | downcase
+        if sw_alt == sw_key
+          assign sw_media = sw_m
+          break
+        endif
+      endfor
+    -%}
+    {%- if sw_variant != null and sw_media != null -%}
+      {%- liquid
+        assign sw_names_raw = sw_names_raw | append: swatch_color.name | append: '|~|'
+        assign sw_state = ''
+        assign sw_compare = ''
+        if sw_available == null
+          assign sw_state = 'sold-out'
+        endif
+        if sw_variant.compare_at_price > sw_variant.price
+          assign sw_compare = sw_variant.compare_at_price | money
+          if sw_state == ''
+            assign sw_state = 'sale'
+          endif
+        endif
+        assign sw_image = sw_media.preview_image
+      -%}
+      <a
+        class="color-card__swatch%%CLS%%"
+        href="{{ product.url | split: '?' | first }}?variant={{ sw_variant.id }}"
+        style="
+          {%- if swatch_color.swatch.image -%}
+            background-image: url({{ swatch_color.swatch.image | image_url: width: 64 }});
+          {%- else -%}
+            --swatch-color: {{ swatch_color.swatch.color | default: '#cccccc' }};
+          {%- endif -%}
+        "
+        aria-label="{{ product.title | escape }} — {{ swatch_color.name | escape }}"
+        %%CUR%%
+        data-sw-variant="{{ sw_variant.id }}"
+        data-sw-src="{{ sw_image | image_url: width: 832 }}"
+        data-sw-srcset="{{ sw_image | image_url: width: 352 }} 352w, {{ sw_image | image_url: width: 640 }} 640w, {{ sw_image | image_url: width: 832 }} 832w, {{ sw_image | image_url: width: 1200 }} 1200w"
+        data-sw-alt="{{ sw_media.alt | escape }}"
+        data-sw-label="{{ product.title | append: ' — ' | append: swatch_color.name | escape }}"
+        data-sw-price="{{ sw_min_price | money | escape }}"
+        data-sw-compare="{{ sw_compare | escape }}"
+        data-sw-state="{{ sw_state }}"
+      ></a>
+      <!--@sw-->
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign sw_templates = sw_templates_raw | split: '<!--@sw-->' -%}
+{%- assign sw_names = sw_names_raw | split: '|~|' -%}
 
 {%- assign rendered_cards = 0 -%}
 {%- for color in color_values -%}
@@ -266,52 +350,24 @@
         </product-price>
 
         {%- capture swatch_dots -%}
-          {%- for swatch_color in color_values -%}
-            {%- liquid
-              assign sw_variant = null
-              assign sw_available = null
-              for sw_v in product.variants
-                if sw_v.options[color_index] == swatch_color
-                  if sw_variant == null
-                    assign sw_variant = sw_v
-                  endif
-                  if sw_v.available and sw_available == null
-                    assign sw_available = sw_v
-                  endif
-                endif
-              endfor
-              assign sw_variant = sw_available | default: sw_variant
-
-              # Only colors that get a card (a media whose alt names the color) are offered
-              assign sw_key = swatch_color | strip | downcase
-              assign sw_has_media = false
-              for sw_media in product.media
-                assign sw_alt = sw_media.alt | strip | downcase
-                if sw_alt == sw_key
-                  assign sw_has_media = true
-                  break
-                endif
-              endfor
-            -%}
-            {%- if sw_variant != null and sw_has_media -%}
-              <a
-                class="color-card__swatch{% if swatch_color.name == color.name %} color-card__swatch--current{% endif %}"
-                href="{{ product.url | split: '?' | first }}?variant={{ sw_variant.id }}"
-                style="
-                  {%- if swatch_color.swatch.image -%}
-                    background-image: url({{ swatch_color.swatch.image | image_url: width: 64 }});
-                  {%- else -%}
-                    --swatch-color: {{ swatch_color.swatch.color | default: '#cccccc' }};
-                  {%- endif -%}
-                "
-                aria-label="{{ product.title | escape }} — {{ swatch_color.name | escape }}"
-                {% if swatch_color.name == color.name %}aria-current="true"{% endif %}
-              ></a>
+          {%- for sw_tpl in sw_templates -%}
+            {%- if sw_tpl contains '<a' -%}
+              {%- if sw_names[forloop.index0] == color.name -%}
+                {{- sw_tpl | replace: '%%CLS%%', ' color-card__swatch--current' | replace: '%%CUR%%', 'aria-current="true"' -}}
+              {%- else -%}
+                {{- sw_tpl | replace: '%%CLS%%', '' | replace: '%%CUR%%', '' -}}
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         {%- endcapture -%}
         {%- if swatch_dots contains '<a' -%}
-          <div class="color-card__swatches">{{ swatch_dots }}</div>
+          <div
+            class="color-card__swatches"
+            data-badge-position="{{ settings.badge_position }}"
+            data-badge-style="--badge-border-radius: {{ settings.badge_corner_radius }}px; --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};"
+            data-badge-sold-out="{{ 'content.product_badge_sold_out' | t | escape }}"
+            data-badge-sale="{{ 'content.product_badge_sale' | t | escape }}"
+          >{{ swatch_dots }}</div>
         {%- endif -%}
       {%- endcapture -%}
 

@@ -1,5 +1,11 @@
 
 
+<script
+  src="{{ 'color-card-swatches.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
 {% liquid
   assign max_items = section.settings.max_products
   if section.settings.background_color != blank
