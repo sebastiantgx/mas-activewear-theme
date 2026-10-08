@@ -86,7 +86,13 @@
             "navigation_bar": false,
             "drawer_accordion": false,
             "drawer_accordion_expand_first": false,
-            "drawer_dividers": false
+            "drawer_dividers": false,
+            "drawer_highlight_menu": "drawer_highlight_menu",
+            "drawer_categories_menu": "drawer_categories_menu",
+            "drawer_shop_menu": "drawer_shop_menu",
+            "drawer_info_menu": "drawer_more_information",
+            "drawer_info_label": "+información",
+            "drawer_copyright": "© 2026 MAS Activewear"
           },
           "blocks": {}
         }

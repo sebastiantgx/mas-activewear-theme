@@ -2,6 +2,10 @@ import { Component } from '@theme/component';
 import { trapFocus, removeTrapFocus } from '@theme/focus';
 import { onAnimationEnd, removeWillChangeOnAnimationEnd } from '@theme/utilities';
 
+// Under this width the mobile drawer panel is the one in use; the desktop panel serves the rest
+const MOBILE_DRAWER_QUERY = '(max-width: 749px)';
+const ACTIVE_PANEL_SELECTOR = '.menu-drawer:not([inert]), .menu-drawer-mobile:not([inert]), .menu-drawer__submenu';
+
 /**
  * A custom element that manages the main menu drawer.
  *
@@ -14,17 +18,36 @@ import { onAnimationEnd, removeWillChangeOnAnimationEnd } from '@theme/utilities
 class HeaderDrawer extends Component {
   requiredRefs = ['details', 'menuDrawer'];
 
+  #mobileQuery = window.matchMedia(MOBILE_DRAWER_QUERY);
+
   connectedCallback() {
     super.connectedCallback();
 
     this.addEventListener('keyup', this.#onKeyUp);
     this.#setupAnimatedElementListeners();
+    this.#syncPanels();
+    this.#mobileQuery.addEventListener('change', this.#syncPanels);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keyup', this.#onKeyUp);
+    this.#mobileQuery.removeEventListener('change', this.#syncPanels);
   }
+
+  /**
+   * The mobile drawer panel and the desktop panel share one <details>. The one that does not apply to the current
+   * width is made inert, which takes it out of the accessibility tree and the tab order (display:none alone is not enough
+   * while the other panel is animating).
+   */
+  #syncPanels = () => {
+    const mobilePanel = this.querySelector('.menu-drawer-mobile');
+    if (!mobilePanel) return;
+
+    const isMobile = this.#mobileQuery.matches;
+    this.refs.menuDrawer.toggleAttribute('inert', isMobile);
+    mobilePanel.toggleAttribute('inert', !isMobile);
+  };
 
   /**
    * Close the main menu drawer when the Escape key is pressed
@@ -35,6 +58,21 @@ class HeaderDrawer extends Component {
 
     this.#close(this.#getDetailsElement(event));
   };
+
+  /**
+   * Lines the mobile panel's header up with the page's top bar: its bottom stroke lands on the same pixel row as the
+   * top bar's own, and the logo and close button share the bar's vertical center. The page header moves with the
+   * announcement bar and the sticky state, so it is measured each time the drawer opens.
+   */
+  #alignMobileHeader() {
+    const mobilePanel = this.querySelector('.menu-drawer-mobile');
+    const bar = document.querySelector('#header-component .header__row--top') ?? document.querySelector('#header-component');
+    if (!(mobilePanel instanceof HTMLElement) || !bar) return;
+
+    const { top, bottom } = bar.getBoundingClientRect();
+    mobilePanel.style.setProperty('--menu-drawer-mobile-header-height', `${Math.round(bottom)}px`);
+    mobilePanel.style.setProperty('--menu-drawer-mobile-header-offset', `${Math.max(0, Math.round(top))}px`);
+  }
 
   /**
    * @returns {boolean} Whether the main menu drawer is open
@@ -51,7 +89,8 @@ class HeaderDrawer extends Component {
   #getDetailsElement(event) {
     if (!(event?.target instanceof Element)) return this.refs.details;
 
-    return event.target.closest('details') ?? this.refs.details;
+    // The accordion inside the mobile drawer is content, not a drawer: Escape there closes the drawer itself
+    return event.target.closest('details:not([data-drawer-accordion])') ?? this.refs.details;
   }
 
   /**
@@ -67,6 +106,10 @@ class HeaderDrawer extends Component {
    * @param {Event} [event]
    */
   open(target, event) {
+    // A section re-render (hydration) can replace the panels' attributes: apply them again right before opening
+    this.#syncPanels();
+    this.#alignMobileHeader();
+
     const details = this.#getDetailsElement(event);
     const summary = details.querySelector('summary');
 
@@ -83,8 +126,10 @@ class HeaderDrawer extends Component {
       }
 
       // Wait for the drawer animation to complete before trapping focus
-      const drawer = details.querySelector('.menu-drawer, .menu-drawer__submenu');
-      onAnimationEnd(drawer || details, () => trapFocus(details), { subtree: false });
+      const drawer = details.querySelector(ACTIVE_PANEL_SELECTOR);
+      // The mobile panel is a dialog of its own: trap focus inside it (the menu button sits outside the panel)
+      const trapTarget = drawer?.classList.contains('menu-drawer-mobile') ? drawer : details;
+      onAnimationEnd(drawer || details, () => trapFocus(trapTarget), { subtree: false });
     });
   }
 
@@ -119,7 +164,8 @@ class HeaderDrawer extends Component {
 
     // Wait for the .menu-drawer element's transition, not the entire details subtree
     // This avoids waiting for child accordion/resource-card animations which can cause issues on Firefox
-    const drawer = details.querySelector('.menu-drawer, .menu-drawer__submenu');
+    const drawer = details.querySelector(ACTIVE_PANEL_SELECTOR);
+    const isMobilePanel = Boolean(drawer?.classList.contains('menu-drawer-mobile'));
 
     onAnimationEnd(
       drawer || details,
@@ -129,6 +175,8 @@ class HeaderDrawer extends Component {
           removeTrapFocus();
           const openDetails = this.querySelectorAll('details[open]:not(accordion-custom > details)');
           openDetails.forEach(reset);
+          // Back to the button that opened the drawer
+          if (isMobilePanel) summary.focus();
         } else {
           trapFocus(this.refs.details);
         }

@@ -33,6 +33,19 @@
   #
   # At the moment, we check if the Section Rendering API is being used by
   # checking if section.index is blank.
+  # The mobile drawer replaces the desktop panel under 750px once at least one of its menus is chosen;
+  # until then the desktop panel keeps serving every width.
+  assign use_mobile_drawer = false
+  if data_header_drawer_type == 'mobile-drawer' and block_settings.drawer_highlight_menu != blank
+    assign use_mobile_drawer = true
+  elsif data_header_drawer_type == 'mobile-drawer' and block_settings.drawer_categories_menu != blank
+    assign use_mobile_drawer = true
+  elsif data_header_drawer_type == 'mobile-drawer' and block_settings.drawer_shop_menu != blank
+    assign use_mobile_drawer = true
+  elsif data_header_drawer_type == 'mobile-drawer' and block_settings.drawer_info_menu != blank
+    assign use_mobile_drawer = true
+  endif
+
   assign eager_loading = false
   if section.index == blank
     assign eager_loading = true
@@ -56,7 +69,7 @@
   <details
     id="Details-menu-drawer-container"
     data-skip-node-update="true"
-    class="menu-drawer-container"
+    class="menu-drawer-container{% if use_mobile_drawer %} menu-drawer-container--redesign{% endif %}"
     ref="details"
     scroll-lock
   >
@@ -779,6 +792,9 @@
         </div>
       {% endif %}
     </div>
+    {%- if use_mobile_drawer -%}
+      {% render 'header-drawer-mobile', block: block %}
+    {%- endif -%}
     <div
       class="menu-drawer__backdrop"
       on:click="header-drawer/close"

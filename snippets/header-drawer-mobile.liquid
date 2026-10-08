@@ -1,0 +1,426 @@
+{%- doc -%}
+  Renders the mobile (under 750px) navigation drawer panel. It lives inside the <details> of header-drawer, which owns
+  opening, closing, focus and scroll lock; this snippet only provides the panel and its overlay.
+
+  Layout: fixed header (logo and close), a scrollable navigation area with four groups (highlight link, categories,
+  shop link, "+información" accordion) and a fixed footer with the copyright.
+
+  Menus come from the settings of the _header-menu block (drawer_highlight_menu, drawer_categories_menu,
+  drawer_shop_menu, drawer_info_menu, drawer_info_label, drawer_copyright). Links to resources that are not published are skipped.
+  All ids use the MobileDrawer- prefix so they never collide with the desktop drawer.
+
+  @param {object} block - The _header-menu block, source of the settings above
+
+  @example
+  {% render 'header-drawer-mobile', block: block %}
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign highlight_menu = block_settings.drawer_highlight_menu
+  assign categories_menu = block_settings.drawer_categories_menu
+  assign shop_menu = block_settings.drawer_shop_menu
+  assign info_menu = block_settings.drawer_info_menu
+  assign logo_alt_fallback = 'accessibility.home_logo_alt' | t: store_name: shop.name
+  assign logo_style = '--menu-drawer-mobile-logo-height: ' | append: settings.logo_height_mobile | append: 'px;'
+-%}
+
+<div
+  id="MobileDrawer"
+  class="menu-drawer-mobile"
+  ref="menuDrawerMobile"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'accessibility.menu' | t }}"
+  tabindex="-1"
+>
+  <div class="menu-drawer-mobile__header">
+    <a
+      id="MobileDrawer-logo"
+      class="menu-drawer-mobile__logo"
+      href="{{ routes.root_url }}"
+    >
+      {% render 'image',
+        image: settings.logo,
+        class: 'menu-drawer-mobile__logo-image',
+        height: settings.logo_height_mobile,
+        alt_text_fallback: logo_alt_fallback,
+        text_fallback: shop.name,
+        style: logo_style
+      %}
+    </a>
+    <button
+      id="MobileDrawer-close"
+      class="menu-drawer-mobile__close"
+      type="button"
+      aria-label="{{ 'actions.close' | t }}"
+      on:click="/close"
+    >
+      <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+        {{- 'icon-close-menu.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </div>
+
+  <nav
+    class="menu-drawer-mobile__nav"
+    aria-label="{{ 'accessibility.header_navigation_label' | t }}"
+  >
+    {%- if highlight_menu != blank -%}
+      <ul class="menu-drawer-mobile__group menu-drawer-mobile__group--highlight" role="list">
+        {%- for link in highlight_menu.links -%}
+          {%- liquid
+            assign show_link = true
+            case link.type
+              when 'page_link' or 'collection_link' or 'product_link' or 'blog_link' or 'article_link'
+                if link.object == blank
+                  assign show_link = false
+                endif
+            endcase
+          -%}
+          {%- if show_link -%}
+            <li>
+              <a
+                id="MobileDrawer-highlight-{{ forloop.index }}"
+                href="{{ link.url }}"
+                class="menu-drawer-mobile__link menu-drawer-mobile__link--main"
+                {% if link.current %}aria-current="page"{% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if categories_menu != blank -%}
+      <ul class="menu-drawer-mobile__group menu-drawer-mobile__group--categories" role="list">
+        {%- for link in categories_menu.links -%}
+          {%- liquid
+            assign show_link = true
+            case link.type
+              when 'page_link' or 'collection_link' or 'product_link' or 'blog_link' or 'article_link'
+                if link.object == blank
+                  assign show_link = false
+                endif
+            endcase
+          -%}
+          {%- if show_link -%}
+            <li>
+              <a
+                id="MobileDrawer-category-{{ forloop.index }}"
+                href="{{ link.url }}"
+                class="menu-drawer-mobile__link menu-drawer-mobile__link--main"
+                {% if link.current %}aria-current="page"{% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if shop_menu != blank -%}
+      <ul class="menu-drawer-mobile__group menu-drawer-mobile__group--shop" role="list">
+        {%- for link in shop_menu.links -%}
+          {%- liquid
+            assign show_link = true
+            case link.type
+              when 'page_link' or 'collection_link' or 'product_link' or 'blog_link' or 'article_link'
+                if link.object == blank
+                  assign show_link = false
+                endif
+            endcase
+          -%}
+          {%- if show_link -%}
+            <li>
+              <a
+                id="MobileDrawer-shop-{{ forloop.index }}"
+                href="{{ link.url }}"
+                class="menu-drawer-mobile__link menu-drawer-mobile__link--main"
+                {% if link.current %}aria-current="page"{% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if info_menu != blank -%}
+      {%- capture info_links -%}
+        {%- for link in info_menu.links -%}
+          {%- liquid
+            assign show_link = true
+            case link.type
+              when 'page_link' or 'collection_link' or 'product_link' or 'blog_link' or 'article_link'
+                if link.object == blank
+                  assign show_link = false
+                endif
+            endcase
+          -%}
+          {%- if show_link -%}
+            <li>
+              <a
+                id="MobileDrawer-info-{{ forloop.index }}"
+                href="{{ link.url }}"
+                class="menu-drawer-mobile__link menu-drawer-mobile__link--sub"
+                {% if link.current %}aria-current="page"{% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if info_links contains '<li>' -%}
+        <details
+          id="MobileDrawer-info"
+          class="menu-drawer-mobile__group menu-drawer-mobile__accordion"
+          data-drawer-accordion
+        >
+          <summary class="menu-drawer-mobile__link menu-drawer-mobile__link--summary">
+            {{- block_settings.drawer_info_label | escape -}}
+          </summary>
+          <ul class="menu-drawer-mobile__sublist" role="list">
+            {{- info_links -}}
+          </ul>
+        </details>
+      {%- endif -%}
+    {%- endif -%}
+  </nav>
+
+  {%- if block_settings.drawer_copyright != blank -%}
+    <div class="menu-drawer-mobile__footer">
+      <p class="menu-drawer-mobile__copyright">{{ block_settings.drawer_copyright | escape }}</p>
+    </div>
+  {%- endif -%}
+</div>
+<div
+  class="menu-drawer-mobile__overlay"
+  on:click="/close"
+></div>
+
+{% stylesheet %}
+  /* The mobile drawer replaces the desktop panel under 750px. Both sit in the same <details>; the one that does not
+     apply is also made inert by header-drawer.js, so it leaves the accessibility tree and the tab order. */
+  @media screen and (min-width: 750px) {
+    details.menu-drawer-container > .menu-drawer-mobile,
+    details.menu-drawer-container > .menu-drawer-mobile__overlay {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    details.menu-drawer-container--redesign > .menu-drawer,
+    details.menu-drawer-container--redesign > .menu-drawer__backdrop {
+      display: none;
+    }
+  }
+
+  .menu-drawer-mobile {
+    --color-gainsboro-900: #605f5a;
+    --menu-drawer-mobile-gutter: 16px;
+    --menu-drawer-mobile-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: var(--layer-menu-drawer);
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    max-width: 400px;
+    height: 100dvh;
+    border-radius: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 250ms ease, visibility 250ms ease;
+  }
+
+  [dir='rtl'] .menu-drawer-mobile {
+    transform: translateX(100%);
+  }
+
+  .menu-open > .menu-drawer-mobile {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .menu-drawer-mobile:focus {
+    outline: none;
+  }
+
+  /* #0C0C0C at 48%, only for this drawer (the desktop one keeps its brightness backdrop) */
+  .menu-drawer-mobile__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--layer-overlay);
+    background-color: rgb(12 12 12 / 0.48);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease, visibility 250ms ease;
+  }
+
+  .menu-open > .menu-drawer-mobile__overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-drawer-mobile,
+    .menu-drawer-mobile__overlay {
+      transition: none;
+    }
+  }
+
+  .menu-drawer-mobile__header {
+    flex: none;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* header-drawer.js sets both to match the page's top bar; these are the fallbacks without it */
+    height: var(--menu-drawer-mobile-header-height, calc(72px + var(--safe-area-inset-top)));
+    padding-block-start: var(--menu-drawer-mobile-header-offset, var(--safe-area-inset-top));
+    padding-inline: var(--menu-drawer-mobile-gutter) 12px;
+    border-block-end: var(--menu-drawer-mobile-border);
+  }
+
+  .menu-drawer-mobile__logo {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* The logo is a JPG on pure white: multiplying it with the drawer background makes the white disappear in any
+     background, without the SVG knockout filter of the header */
+  .menu-drawer-mobile__logo-image {
+    width: auto;
+    height: var(--menu-drawer-mobile-logo-height, 28px);
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .menu-drawer-mobile__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .menu-drawer-mobile__close .svg-wrapper {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
+  .menu-drawer-mobile__nav {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px var(--menu-drawer-mobile-gutter) 32px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .menu-drawer-mobile__group {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-drawer-mobile__link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    border-radius: 0;
+    color: var(--color-foreground);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .menu-drawer-mobile__link--main {
+    min-height: 48px;
+    font-family: var(--font-subheading--family);
+    font-style: var(--font-subheading--style);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .menu-drawer-mobile__accordion > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .menu-drawer-mobile__accordion > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu-drawer-mobile__link--summary {
+    font-family: var(--font-subheading--family);
+    font-style: var(--font-subheading--style);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--color-gainsboro-900);
+  }
+
+  /* Keep the tapped state of a touch screen from turning the label darker than the design */
+  .menu-drawer-mobile__link--summary:hover {
+    color: var(--color-gainsboro-900);
+  }
+
+  .menu-drawer-mobile__sublist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-drawer-mobile__link--sub {
+    padding-inline-start: 24px;
+    font-family: var(--font-body--family);
+    font-style: var(--font-body--style);
+    font-weight: var(--font-body--weight);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .menu-drawer-mobile__link[aria-current='page'] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .menu-drawer-mobile__footer {
+    flex: none;
+    padding: 16px var(--menu-drawer-mobile-gutter);
+    padding-block-end: calc(16px + var(--safe-area-inset-bottom));
+    border-block-start: var(--menu-drawer-mobile-border);
+  }
+
+  .menu-drawer-mobile__copyright {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-style: var(--font-body--style);
+    font-weight: var(--font-body--weight);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-gainsboro-900);
+  }
+{% endstylesheet %}

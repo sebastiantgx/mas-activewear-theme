@@ -33,6 +33,8 @@
     "text": "Text"
   },
   "content": {
+    "mobile_drawer": "Mobile drawer",
+    "mobile_drawer_paragraph": "Phone-sized navigation drawer. Choose at least one menu to use it; until then the standard drawer is shown. Links to unpublished pages and collections are skipped.",
     "visible_if_collection_has_more_products": "Visible if collection has more products than shown",
     "advanced": "Advanced",
     "appearance": "Appearance",
@@ -746,6 +748,12 @@
     "below_media": "Below media"
   },
   "settings": {
+    "drawer_highlight_menu": "Highlight menu",
+    "drawer_categories_menu": "Categories menu",
+    "drawer_shop_menu": "Shop menu",
+    "drawer_info_menu": "Information menu",
+    "drawer_info_label": "Information label",
+    "drawer_copyright": "Copyright text",
     "accordion": "Accordion",
     "account": "Account",
     "actions_display_style": "Menu style",
