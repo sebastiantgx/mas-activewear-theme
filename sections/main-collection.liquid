@@ -75,8 +75,19 @@
         endfor
       %}
 
+      {% liquid
+        # Cards of one product are not left contiguous, unless the shopper picked a sort order: then the order is respected as is
+        assign interleave_cards = false
+        assign max_eager_cards = null
+        if collection.sort_by == blank or collection.sort_by == collection.default_sort_by
+          assign interleave_cards = true
+          # Interleaved, only the first card of each product is near the top; otherwise all of a product's cards are
+          assign max_eager_cards = 1
+        endif
+      %}
+
       {% paginate collection.products by products_per_page %}
-        {% capture children %}
+        {% capture product_cards %}
           {% for product in collection.products %}
             {% liquid
               assign has_color_option = false
@@ -96,9 +107,11 @@
                 hide_sold_out: hide_sold_out,
                 price_filter_min: price_filter_min,
                 price_filter_max: price_filter_max,
-                product_view_context: 'collection'
+                product_view_context: 'collection',
+                max_eager_cards: max_eager_cards
               %}
             {% else %}
+              <!--@card/split-->
               <li
                 id="{{ section.id }}-{{ product.id }}"
                 class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -114,7 +127,12 @@
                 %}
               </li>
             {% endif %}
+            <!--@product/split-->
           {% endfor %}
+        {% endcapture %}
+
+        {% capture children %}
+          {% render 'interleave-color-cards', cards: product_cards, interleave: interleave_cards %}
         {% endcapture %}
 
         {% render 'product-grid',

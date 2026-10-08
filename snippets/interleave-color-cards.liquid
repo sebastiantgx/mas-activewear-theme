@@ -1,0 +1,37 @@
+{%- doc -%}
+  Orders the cards of a product list so cards of the same product are not contiguous: first the 1st card of every
+  product, then the 2nd card of every product, and so on (round robin). Products keep their relative order, so
+  when a round runs out of cards for some products the rest continue in the same order.
+
+  The caller captures one string per product and ends each product with <!--@product/split-->. Every card inside
+  that string must be preceded by <!--@card/split--> (product-color-cards does it; a product without color cards
+  emits the marker itself, so it counts as a single card in round 1).
+
+  With interleave off the cards come out in their original order and the markers are removed.
+
+  @param {string} cards - The captured cards of all products, with the markers described above
+  @param {boolean} interleave - Whether to reorder; false keeps the original order
+
+  @example
+  {% render 'interleave-color-cards', cards: cards, interleave: true %}
+{%- enddoc -%}
+
+{%- if interleave -%}
+  {%- assign product_chunks = cards | split: '<!--@product/split-->' -%}
+  {%- for round in (1..60) -%}
+    {%- assign emitted = false -%}
+    {%- for chunk in product_chunks -%}
+      {%- assign chunk_cards = chunk | split: '<!--@card/split-->' -%}
+      {%- assign card = chunk_cards[round] -%}
+      {%- if card != nil and card contains '<' -%}
+        {%- assign emitted = true -%}
+        {{- card -}}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- unless emitted -%}
+      {%- break -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- else -%}
+  {{- cards | remove: '<!--@product/split-->' | remove: '<!--@card/split-->' -}}
+{%- endif -%}

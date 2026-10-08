@@ -29,7 +29,7 @@
     {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
   </div>
 
-  {% capture list_items %}
+  {% capture product_cards %}
     {% if section.settings.collection != blank and shop.products_count != 0 %}
       {% paginate section.settings.collection.products by max_items %}
         {% for product in section.settings.collection.products limit: max_items %}
@@ -51,9 +51,11 @@
               paginate_page: 1,
               hide_sold_out: false,
               product_view_context: 'collection',
-              layout: 'carousel'
+              layout: 'carousel',
+              max_eager_cards: 1
             %}
           {% else %}
+            <!--@card/split-->
             <!--@list/split-->
             <div
               class="resource-list__item"
@@ -66,10 +68,12 @@
               %}
             </div>
           {% endif %}
+          <!--@product/split-->
         {% endfor %}
       {% endpaginate %}
     {% else %}
       {% for i in (1..max_items) %}
+        <!--@card/split-->
         <!--@list/split-->
         <div
           class="resource-list__item"
@@ -78,6 +82,10 @@
         </div>
       {% endfor %}
     {% endif %}
+  {% endcapture %}
+
+  {% capture list_items %}
+    {% render 'interleave-color-cards', cards: product_cards, interleave: true %}
   {% endcapture %}
 
   {% liquid

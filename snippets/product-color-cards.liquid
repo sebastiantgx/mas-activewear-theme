@@ -14,6 +14,8 @@
   - availability "in stock" active: sold out colors are not rendered
   - price range active: colors whose lowest price falls outside the range are not rendered
 
+  Every card is preceded by the <!--@card/split--> marker so interleave-color-cards can reorder them.
+
   Products without a Color option are not handled here; the caller renders its regular card.
 
   @param {object} product - The product
@@ -24,6 +26,7 @@
   @param {number} [price_filter_min] - Active price filter minimum, in the smallest currency unit
   @param {number} [price_filter_max] - Active price filter maximum, in the smallest currency unit
   @param {string} [product_view_context] - Context passed to the card for standard events
+  @param {number} [max_eager_cards] - Maximum number of this product's cards that may load eagerly (default: no limit). Interleaved lists pass 1, since only the first card of each product is near the top
   @param {string} [layout] - 'grid' (default) wraps each card in a product grid <li>; 'carousel' wraps it in a resource-list item preceded by the <!--@list/split--> marker the carousel layouts split on
 {%- enddoc -%}
 
@@ -60,6 +63,7 @@
   endif
 -%}
 
+{%- assign rendered_cards = 0 -%}
 {%- for color in color_values -%}
   {%- liquid
     assign first_variant = null
@@ -141,15 +145,21 @@
       assign loading = 'lazy'
       assign sizes = 'auto, ' | append: image_sizes
       if section.index == null or section.index < 5
-        if base_index < 4
+        assign eager_allowed = true
+        if max_eager_cards != null and rendered_cards >= max_eager_cards
+          assign eager_allowed = false
+        endif
+        if base_index < 4 and eager_allowed
           assign loading = 'eager'
           assign sizes = image_sizes
         endif
       endif
 
+      assign rendered_cards = rendered_cards | plus: 1
       assign ratio = card_media.preview_image.aspect_ratio | default: '1'
     -%}
 
+    <!--@card/split-->
     {%- if layout == 'carousel' -%}
       <!--@list/split-->
       <div class="resource-list__item" data-product-color="{{ color | escape }}">
