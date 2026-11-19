@@ -364,18 +364,18 @@
   "shopify": {
     "checkout": {
       "contact": {
-        "company_label": "RUT",
-        "optional_company_label": "RUT",
-        "change_company_location_link_label": "RUT",
-        "company_attention_label": "RUT",
-        "optional_company_attention_label": "RUT"
+        "company_label": "RUT / CI (opcional)",
+        "optional_company_label": "RUT / CI (opcional)",
+        "change_company_location_link_label": "Cambiar sucursal de la empresa",
+        "company_attention_label": "A la atención de (RUT/CI)",
+        "optional_company_attention_label": "A la atención de (RUT/CI, opcional)"
       },
       "field_errors": {
-        "address_company_blank": "RUT",
-        "address_company_too_long": "RUT",
-        "address_company_contains_html_tags": "RUT",
-        "address_company_contains_emojis": "RUT",
-        "address_company_contains_mathematical_symbols": "RUT"
+        "address_company_blank": "Introducí tu RUT o CI",
+        "address_company_too_long": "El RUT/CI es demasiado largo (máximo 255 caracteres)",
+        "address_company_contains_html_tags": "El RUT/CI no puede contener etiquetas HTML",
+        "address_company_contains_emojis": "El RUT/CI no puede contener emojis",
+        "address_company_contains_mathematical_symbols": "El RUT/CI no puede contener símbolos matemáticos"
       }
     }
   }
