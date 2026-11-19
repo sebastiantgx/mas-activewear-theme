@@ -360,5 +360,23 @@
       "success_moderated": "Comentario publicado y a la espera de moderación",
       "success": "Comentario publicado"
     }
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "company_label": "RUT",
+        "optional_company_label": "RUT",
+        "change_company_location_link_label": "RUT",
+        "company_attention_label": "RUT",
+        "optional_company_attention_label": "RUT"
+      },
+      "field_errors": {
+        "address_company_blank": "RUT",
+        "address_company_too_long": "RUT",
+        "address_company_contains_html_tags": "RUT",
+        "address_company_contains_emojis": "RUT",
+        "address_company_contains_mathematical_symbols": "RUT"
+      }
+    }
   }
 }
