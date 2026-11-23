@@ -11,7 +11,19 @@
       <link
         rel="icon"
         type="image/png"
-        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+        sizes="32x32"
+        href="{{ settings.favicon | image_url: width: 32, height: 32, crop: 'center', format: 'png' }}"
+      >
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href="{{ settings.favicon | image_url: width: 192, height: 192, crop: 'center', format: 'png' }}"
+      >
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ settings.favicon | image_url: width: 180, height: 180, crop: 'center', format: 'png' }}"
       >
     {%- endif -%}
 
