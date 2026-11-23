@@ -369,7 +369,8 @@
         "change_company_location_link_label": "Cambiar sucursal de la empresa",
         "company_attention_label": "A la atención de (RUT/CI)",
         "optional_company_attention_label": "A la atención de (RUT/CI, opcional)",
-        "city_label": "Ciudad/Barrio"
+        "city_label": "Ciudad/Barrio",
+        "address2_label": "Casa, apartamento, etc."
       },
       "field_errors": {
         "address_company_blank": "Introducí tu RUT o CI",
