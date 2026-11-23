@@ -381,9 +381,6 @@
         "address_company_contains_html_tags": "El RUT/CI no puede contener etiquetas HTML",
         "address_company_contains_emojis": "El RUT/CI no puede contener emojis",
         "address_company_contains_mathematical_symbols": "El RUT/CI no puede contener símbolos matemáticos"
-      },
-      "payment": {
-        "pay_with_credit_card": "Pagar con tarjeta de crédito o débito"
       }
     }
   }
