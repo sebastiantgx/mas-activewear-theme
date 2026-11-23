@@ -109,7 +109,7 @@
       "password-footer": {
         "type": "password-footer",
         "settings": {
-          "background_color": ""
+          "background_color": "{{ settings.color_palette.color4 }}"
         }
       }
     },
