@@ -150,7 +150,7 @@
         "first_collection": "destacados",
         "layout_type": "grid",
         "carousel_on_mobile": false,
-        "columns": 6,
+        "columns": 5,
         "mobile_columns": "2",
         "columns_gap": 12,
         "bento_gap": 8,
